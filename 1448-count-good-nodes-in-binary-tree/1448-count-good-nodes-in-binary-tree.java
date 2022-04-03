@@ -14,18 +14,18 @@
  * }
  */
 class Solution {
+    int cont =0;
     public int goodNodes(TreeNode root) {
-        return getCount(root, Integer.MIN_VALUE);
+        getCount(root, Integer.MIN_VALUE);
+        return cont;
     }
-    public int getCount(TreeNode root, int max){
-        if(root==null) return 0;
-        int cont = 0;
+    public void getCount(TreeNode root, int max){
+        if(root==null) return;
         if(root.val>=max){
             max = root.val;
-            cont = 1;
+            cont++;
         }
-        int left = getCount(root.left, max);
-        int right = getCount(root.right, max);
-        return left+right+cont;
+        getCount(root.left, max);
+        getCount(root.right, max);
     }
 }
