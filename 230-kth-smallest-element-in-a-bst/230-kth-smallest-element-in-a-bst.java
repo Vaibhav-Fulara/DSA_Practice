@@ -13,17 +13,33 @@
  *     }
  * }
  */
+// class Solution {
+//     public int kthSmallest(TreeNode root, int k) {
+//         Stack<Integer>st = new Stack<>();
+//         addNodes(root,st);
+//         while(k-- != 1) st.pop();
+//         return st.peek();
+//     }
+//     public void addNodes(TreeNode root, Stack<Integer>st){
+//         if(root==null) return;
+//         addNodes(root.right, st);
+//         st.add(root.val);
+//         addNodes(root.left, st);
+//     }
+// }
+
 class Solution {
     public int kthSmallest(TreeNode root, int k) {
-        Stack<Integer>st = new Stack<>();
-        addNodes(root,st);
-        while(k-- != 1) st.pop();
-        return st.peek();
+        Queue<Integer>qu = new LinkedList<>();
+        addNodes(root,qu,k);
+        while(qu.size()!=1) qu.remove();
+        return qu.remove();
     }
-    public void addNodes(TreeNode root, Stack<Integer>st){
+    public void addNodes(TreeNode root, Queue<Integer>qu, int k){
         if(root==null) return;
-        addNodes(root.right, st);
-        st.add(root.val);
-        addNodes(root.left, st);
+        if(qu.size()!=k) addNodes(root.left, qu, k);
+        if(qu.size()!=k) qu.add(root.val);
+        if(qu.size()!=k) addNodes(root.right, qu, k);
     }
 }
+
