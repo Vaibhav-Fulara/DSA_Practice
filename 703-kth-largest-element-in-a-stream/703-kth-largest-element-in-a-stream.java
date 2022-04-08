@@ -10,7 +10,7 @@ class KthLargest {
     
     public int add(int val) {
         pq.add(val);
-        while(pq.size()>k) pq.remove(); 
+        if(pq.size()>k) pq.remove(); 
         return pq.peek();
     }
 }
