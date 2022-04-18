@@ -13,16 +13,14 @@
  *     }
  * }
  */
-class Solution {
+class Solution{
+    int iterator = 0, ans = 0;
     public int kthSmallest(TreeNode root, int k) {
-        PriorityQueue<Integer>pq = new PriorityQueue<>(Collections.reverseOrder());
-        makePQ(root, pq, k);
-        return pq.peek();
-    }
-    public void makePQ(TreeNode root, PriorityQueue<Integer>pq, int k){
-        pq.add(root.val);
-        if(root.left!=null) makePQ(root.left, pq, k);
-        if(root.right!=null)makePQ(root.right, pq, k);
-        while(pq.size()>k) pq.remove();
+        if(root==null) return 0;
+        kthSmallest(root.left,k);
+        iterator++;
+        if(k==iterator) {ans=root.val; return ans;}
+        kthSmallest(root.right,k);
+        return ans;
     }
 }
