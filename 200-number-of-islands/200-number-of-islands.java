@@ -7,7 +7,7 @@ class Solution {
     }
     
     public void getIsland(char[][]grid, int sr, int sc){
-        grid[sr][sc] = 0;
+        grid[sr][sc] = '0';
         for(int[]dirc : dir){
             int row = sr + dirc[0];
             int col = sc + dirc[1];
