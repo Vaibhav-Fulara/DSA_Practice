@@ -20,13 +20,14 @@ class BSTIterator {
     }
     
     public void createStack(TreeNode root){
-        if(root.right != null) createStack(root.right);
         st.push(root);
         if(root.left != null) createStack(root.left);
     }
     
     public int next() {
-        return st.pop().val;
+        TreeNode temp = st.pop();
+        if(temp.right!=null) createStack(temp.right);
+        return temp.val;
     }
     
     public boolean hasNext() {
