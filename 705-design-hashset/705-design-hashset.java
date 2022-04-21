@@ -1,23 +1,21 @@
 class MyHashSet {
 
-    List<Integer>al;
+    boolean[]arr;
     
     public MyHashSet() {
-        al = new ArrayList<Integer>();
+        arr = new boolean[(int)Math.pow(10,6)+1];
     }
     
     public void add(int key) {
-        if(! al.contains(key) ) al.add(key);
+        arr[key] = true;
     }
     
     public void remove(int key) {
-        int i = al.indexOf(key);
-        if(i!=-1)al.remove(i);
+        arr[key] = false;
     }
     
     public boolean contains(int key) {
-        if(al.contains(key)) return true;
-        return false;
+        return arr[key];
     }
 }
 
