@@ -14,25 +14,27 @@
  * }
  */
 class Solution {
-    TreeNode previous = null;
-    TreeNode first = null;
-    TreeNode second = null;
+    TreeNode prev;
+    TreeNode curr;
+    TreeNode mid;
     
     public void recoverTree(TreeNode root) {
-        solve(root);
-        int temp = first.val;
-        first.val = second.val;
-        second.val = temp;
+        iterate(root);
+        int temp = curr.val;
+        curr.val = mid.val;
+        mid.val = temp;
     }
     
-    public void solve(TreeNode root){
+    public void iterate(TreeNode root){
         if(root == null) return;
-        solve(root.left);
-        if(previous != null && root.val < previous.val){
-            if(first == null) first = previous;
-            second = root;
+        iterate(root.left);
+        if(prev != null){
+            if(root.val < prev.val){
+                if(mid == null) mid = prev;
+                curr = root;
+            }
         }
-        previous = root;
-        solve(root.right);
+        prev = root;
+        iterate(root.right);
     }
 }
