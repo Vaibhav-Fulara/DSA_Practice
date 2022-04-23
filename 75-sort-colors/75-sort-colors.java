@@ -8,14 +8,14 @@ class Solution {
                 int temp = arr[zero];
                 arr[zero++] = 0;
                 arr[i] = temp;
-                i++;
             }
             else if(arr[i] == 2){
                 int temp = arr[two];
                 arr[two--] = 2;
                 arr[i] = temp;
+                i--;
             }
-            else i++;
+            i++;
         }
     }
 }
