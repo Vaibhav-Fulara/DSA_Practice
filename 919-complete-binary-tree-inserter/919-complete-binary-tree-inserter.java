@@ -14,23 +14,23 @@
  * }
  */
 class CBTInserter {
+    Queue<TreeNode>qu = new LinkedList<>();
     TreeNode init = null;
     public CBTInserter(TreeNode root) {
         init = root;
+        qu.add(init);
     }
     
     public int insert(int val) {
-        Queue<TreeNode>qu = new LinkedList<>();
-        qu.add(init);
         while(qu.size()!=0){
-            TreeNode temp = qu.remove();
+            TreeNode temp = qu.peek();
             if(temp.left == null){
                 temp.left = new TreeNode(val);
                 qu.add(temp.left);
                 return temp.val;
             }
             else qu.add(temp.left);
-            
+            qu.remove();
             if(temp.right == null){
                 temp.right = new TreeNode(val);
                 qu.add(temp.right);
