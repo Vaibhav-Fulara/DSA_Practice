@@ -1,56 +1,42 @@
 class Solution {
-    public int init(Queue<pair>qu, int[][]arr){
-        int fresh = 0;
-        for(int i=0; i<arr.length; i++){
-            for(int j=0; j<arr[0].length; j++){
-                if(arr[i][j] == 1) fresh++;
-                else if(arr[i][j] == 2) qu.add(new pair(i, j));
-            }
-        }
-        return fresh;
-    }    
-    public class pair{
-        int x;
-        int y;
-        pair(){};
-        pair(int x, int y){
-            this.x = x;
-            this.y = y;
-        }
-    }
-    
     static int[][]dir = {{-1,0}, {1,0}, {0,-1}, {0,1}};
-    
     public int orangesRotting(int[][] grid) {
-        Queue<pair>qu = new LinkedList<>();
-        int fresh = init(qu, grid);
-        
-        if(fresh == 0) return 0;
-        
+        int n = grid.length;
+        int m = grid[0].length;
+        Queue<Integer>qu = new LinkedList<>();
+        int fresh = getOranges(qu, grid);
         int time = 0;
         while(qu.size()!=0){
             int size = qu.size();
-            
-            while(size-- >0){
-                pair temp = qu.remove();
-                int x = temp.x;
-                int y = temp.y;  
-                
-                if(grid[x][y] == 1){
-                    grid[x][y] = 2;
-                    fresh--;
-                }
-                
-                if(fresh==0) return time;   
-                
+            if(fresh == 0) return time;
+            time++;
+            while(size-- !=0){
+                int rem = qu.remove();
+                int x = rem/m;
+                int y = rem%m;
                 for(int[]d:dir){
-                    int r = x + d[0];
-                    int c = y + d[1];
-                    if(r>=0 && r<grid.length && c>=0 && c<grid[0].length && grid[r][c]==1) qu.add(new pair(r,c));
+                    int r = x+d[0];
+                    int c = y+d[1];
+                    if(r>=0 && c>=0 && r<n && c<m && grid[r][c] == 1){
+                        grid[r][c] = 2;
+                        qu.add(r*m + c);
+                        fresh--;
+                    }
                 }
             }
-            time++;
         }
-        return fresh == 0? time:-1;
+        return fresh != 0? -1:time;
+    }
+    public int getOranges(Queue<Integer>qu, int[][]grid){
+        int count = 0;
+        int n = grid.length;
+        int m = grid[0].length;
+        for(int i=0; i<n; i++){
+            for(int j=0; j<m; j++){
+                if(grid[i][j]==2) qu.add(i*m + j);
+                else if(grid[i][j]==1) count++;
+            }
+        }
+        return count;
     }
 }
