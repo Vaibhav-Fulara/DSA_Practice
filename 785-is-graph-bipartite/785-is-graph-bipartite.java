@@ -1,26 +1,22 @@
 class Solution {
-    
     public boolean isBipartite(int[][] graph) {
+        Queue<pair>qu = new LinkedList<>();
         int[]arr = new int[graph.length];
         Arrays.fill(arr, -1);
-        
-        for(int t=0; t<graph.length; t++){
-            if(arr[t] == -1){
-                Queue<pair>qu = new LinkedList<>();
-                qu.add(new pair(t,0));
-
+        for(int i=0; i<graph.length; i++){
+            if(arr[i] == -1){
+                qu.add(new pair(i, 0));
                 while(qu.size()!=0){
                     pair temp = qu.remove();
-                    if(arr[temp.val] != -1){
-                        if(arr[temp.val] == temp.col) continue;
-                        else return false;
-                    }
-
-                    arr[temp.val] = temp.col;
-                    int src = temp.val;
-
-                    for(int val:graph[src]){
-                        if(arr[val] == -1) qu.add (new pair(val, 1-temp.col));
+                    for(int val:graph[temp.val]){
+                        if(arr[val] == -1){
+                            arr[val] = 1-temp.col;
+                            qu.add(new pair(val, arr[val]));
+                        }    
+                        else{
+                            if(arr[val] == 1-temp.col) continue;
+                            else return false;
+                        }
                     }
                 }
             }
@@ -31,8 +27,8 @@ class Solution {
     public class pair{
         int val;
         int col;
-        pair(){};
-        pair(int val, int col){
+        pair(){}
+        pair(int val,int col){
             this.val = val;
             this.col = col;
         }
