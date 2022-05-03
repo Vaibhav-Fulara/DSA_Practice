@@ -9,14 +9,14 @@ class Employee {
 
 class Solution {
     public int getImportance(List<Employee>employees, int id) {
-        int val = 0;
-        for(int i=0; i<employees.size(); i++){
-            Employee e = employees.get(i);
-            if(e.id == id){
-                for(int temp: e.subordinates) val += getImportance(employees, temp);
-                return val + e.importance;
-            }
-        }
-        return -1;
+        HashMap<Integer, Employee>hm = new HashMap<>();
+        for(Employee e:employees) hm.put(e.id, e);
+        Employee e = hm.get(id);
+        return dfs(hm, e);
+    }
+    public int dfs (HashMap<Integer, Employee>hm, Employee e){
+        int val =0;
+        for(int temp: e.subordinates) val += dfs(hm, hm.get(temp));
+        return val + e.importance;
     }
 }
