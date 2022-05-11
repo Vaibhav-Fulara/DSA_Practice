@@ -1,13 +1,8 @@
 class Solution {
-    public int countSquares(int[][] matrix) {
-        int n = matrix.length;
-        int m = matrix[0].length;
-        int[][]ans = new int[n][m];
-        return getCount(matrix, ans);
-    }
-    public int getCount(int[][]arr, int[][]ans){
+    public int countSquares(int[][] arr) {
         int n = arr.length;
         int m = arr[0].length;
+        int[][]ans = new int[n][m];
         int cost = 0;
         for(int i=n-1; i>=0; i--){
             for(int j=m-1; j>=0; j--){
