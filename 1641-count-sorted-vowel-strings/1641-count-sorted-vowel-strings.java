@@ -1,13 +1,17 @@
 class Solution {
     public int countVowelStrings(int n) {
-        return getCount(n, 0);
+        int[][]dp = new int[5][n+1];
+        return getCount(dp, n, 0);
     }
-    public int getCount(int n, int idx){
-        if(n==0) return 1;
+    public int getCount(int[][]dp, int n, int idx){
+        if(n==0) return dp[idx][n] = 1;
         if(n<0 || idx>4) return 0;
-        int count = 0;
-        count += getCount(n-1, idx);
-        count += getCount(n, idx+1);
-        return count;
+        if(dp[idx][n]!=0) return dp[idx][n];
+        else{
+            int count = 0;
+            count += getCount(dp, n-1, idx);
+            count += getCount(dp, n, idx+1);
+            return dp[idx][n] = count;
+        }
     }
 }
