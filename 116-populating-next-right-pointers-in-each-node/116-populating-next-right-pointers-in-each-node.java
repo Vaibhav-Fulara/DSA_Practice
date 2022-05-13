@@ -23,23 +23,13 @@ class Node {
 
 class Solution {
     public Node connect(Node root) {
-        if(root==null) return root;
-        Queue<Node>qu = new LinkedList<>();
-        qu.add(root);
-        qu.add(null);
-        Node nextNode = null;
-        while(!(qu.size()==1 && qu.peek()==null)){
-            Node node = qu.remove();
-            if(node==null){
-                nextNode = null;
-                qu.add(null);
-                continue;
-            }
-            node.next = nextNode;
-            nextNode = node;
-            if(node.right != null) qu.add(node.right);
-            if(node.left != null) qu.add(node.left);
-        }
+        if(root == null) return null;
+        if(root.left != null){
+            root.left.next = root.right;
+            if(root.right != null && root.next != null) root.right.next = root.next.left;
+        } 
+        connect(root.left);
+        connect(root.right);
         return root;
     }
 }
