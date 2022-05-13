@@ -8,18 +8,38 @@
  *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
  * }
  */
+
 class Solution {
     public int pairSum(ListNode head) {
-        Stack<Integer>st = new Stack<>();
-        ListNode temp = head;
-        while(temp!=null) {st.push(temp.val); temp = temp.next;}
-        int n = st.size()/2;
-        int ans = head.val;
-        temp = head;
-        for(int i=0; i<n; i++) {
-            ans = Math.max(temp.val + st.pop(), ans);
-            temp = temp.next;
+        ListNode slow = head;
+        ListNode fast = head;
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
         }
-        return ans;
+        slow = reverse(slow);
+        fast = head;
+        int sum = Integer.MIN_VALUE;
+        while (slow != null) {
+            sum = Math.max(slow.val + fast.val, sum);
+            slow = slow.next;
+            fast = fast.next;
+        }
+        return sum;
+    }
+    
+    public ListNode reverse(ListNode node) {
+        if (node == null) {
+            return null;
+        }
+        ListNode current = node;
+        ListNode previous = null;
+        while (current != null) {
+            ListNode next = current.next;
+            current.next = previous;
+            previous = current;
+            current = next;
+        }
+        return previous;
     }
 }
