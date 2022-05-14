@@ -15,9 +15,6 @@ class Solution {
         void setEnd(){
             flag = true;
         }
-        boolean isEnd(){
-            return flag;
-        }
     }
     public static class Trie {
         private Node root;
@@ -34,28 +31,6 @@ class Solution {
                 node = node.get(ch);
             }
             node.setEnd();
-        }
-  
-        public boolean search(String word) {
-            Node node = root;
-            for(char ch:word.toCharArray()){
-                if(!node.containsKey(ch)){
-                    return false;
-                }
-                node = node.get(ch);
-            }
-            return node.isEnd();
-        }
-  
-        public boolean startsWith(String prefix) {
-            Node node = root;
-            for(char ch:prefix.toCharArray()){
-                if(!node.containsKey(ch)){
-                    return false;
-                }
-                node = node.get(ch);
-            }
-            return true;
         }
         
         public String replace(String str){
@@ -84,4 +59,3 @@ class Solution {
         return ans.substring(0,ans.length()-1);
     }
 }
-
