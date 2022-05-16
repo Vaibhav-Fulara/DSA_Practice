@@ -134,8 +134,8 @@ class Tree{
                 Node elem = que.remove();
                 if(i==0){
                     ans.add(elem.data); 
-                    i++;
                 }
+                i++;
                 if(elem.left!=null){
                     que.add(elem.left);
                 }
