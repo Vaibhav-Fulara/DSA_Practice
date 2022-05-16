@@ -121,26 +121,29 @@ class Node
 }*/
 
 class Tree{
-    ArrayList<Integer> leftView(Node root){
-        ArrayList<Integer>al = new ArrayList<>();
-        if(root == null) return al;
+        ArrayList<Integer> leftView(Node root) {
+        ArrayList<Integer> ans = new ArrayList<>();
+        Queue<Node> que = new ArrayDeque<>();
         
-        Queue<Node>qu = new LinkedList<>();
-        qu.add(root);
-        qu.add(null);
+        if(root!=null) que.add(root);
         
-        al.add(root.data);
-        
-        while(!(qu.size()==1 && qu.peek()==null)){
-            Node temp = qu.poll();
-            if(temp == null){
-                if(!(qu.peek()==null)) al.add(qu.peek().data);
-                qu.add(null);
-                continue;
+        while(que.size()>0){
+            int size = que.size();
+            int i = 0;
+            while(size-->0){
+                Node elem = que.remove();
+                if(i==0){
+                    ans.add(elem.data); 
+                    i++;
+                }
+                if(elem.left!=null){
+                    que.add(elem.left);
+                }
+                if(elem.right!=null){
+                    que.add(elem.right);
+                }
             }
-            if(temp.left!=null) qu.add(temp.left);
-            if(temp.right!=null) qu.add(temp.right);
         }
-        return al;
+        return ans;
     }
 }
