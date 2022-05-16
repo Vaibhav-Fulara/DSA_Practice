@@ -123,7 +123,7 @@ class Node
 class Tree{
         ArrayList<Integer> leftView(Node root) {
         ArrayList<Integer> ans = new ArrayList<>();
-        Queue<Node> que = new ArrayDeque<>();
+        Queue<Node> que = new LinkedList<>();
         
         if(root!=null) que.add(root);
         
