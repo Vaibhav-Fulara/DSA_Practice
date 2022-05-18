@@ -19,16 +19,15 @@ class Solution {
         if(root.val == x){
             int left = getSize(root.left);
             int right = getSize(root.right);
-            int parent = n-(left + right + 1);
-            if(parent > left + right +1 || left > parent + right || right > parent + left) return true;
+            int parent = n-left-right-1;
+            if(parent > (left + right + 1) || left > (parent + right) || right > (parent + left)) return true;
         }
         return btreeGameWinningMove(root.left, n, x) || btreeGameWinningMove(root.right, n, x);
     }
-    
-    public int getSize(TreeNode root){
-        if(root == null) return 0;
-        int left = getSize(root.left);
-        int right = getSize(root.right);
+    public int getSize(TreeNode node){
+        if(node == null) return 0;
+        int left = getSize(node.left);
+        int right = getSize(node.right);
         return left + right + 1;
     }
 }
