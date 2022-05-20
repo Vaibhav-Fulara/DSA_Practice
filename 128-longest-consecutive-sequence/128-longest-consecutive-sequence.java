@@ -7,7 +7,10 @@ class Solution {
         for(int val:arr){
             if(!hs.contains(val-1)){
                 int temp = 1;
-                while(hs.contains(++val)) temp++;
+                while(hs.contains(++val)) {
+                    temp++;
+                    hs.remove(val);
+                }
                 ans = Math.max(ans, temp);
             }
         }
