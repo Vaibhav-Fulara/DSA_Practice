@@ -1,26 +1,32 @@
 class Solution {
     int min = Integer.MAX_VALUE;
-    public int coinChange(int[]arr, int amount) {
-        int n= arr.length;
-    
-        int[][] dp=new int[n][amount+1];
-        for(int row[]: dp) Arrays.fill(row,-1);
+    public int coinChange(int[]arr, int T) {
+        int n = arr.length;
+        int prev[]=new int[T+1]; 
+        int cur[] =new int[T+1];
 
-        int ans =  minimumElementsUtil(arr, n-1, amount, dp);
-        if(ans >= (int) Math.pow (10,9)) return -1;
-        return ans;
-    }
-    public int minimumElementsUtil(int[] arr, int ind, int T, int[][] dp){
-
-        if(ind == 0){
-            if(T%arr[0] == 0) return T/arr[0];
-            else return (int)Math.pow(10,9);
+        for(int i=0; i<=T; i++){
+            if(i%arr[0] == 0) prev[i] = i/arr[0];
+            else prev[i] = (int)Math.pow(10,9);
         }
 
-        if(dp[ind][T]!=-1) return dp[ind][T];
-        int notTaken = 0 + minimumElementsUtil(arr,ind-1,T,dp);
-        int taken = (int)Math.pow(10,9);
-        if(arr[ind] <= T) taken = 1 + minimumElementsUtil(arr,ind,T-arr[ind],dp);
-        return dp[ind][T] = Math.min(notTaken,taken);
+        for(int ind = 1; ind<n; ind++){
+            for(int target = 0; target<=T; target++){
+
+                int notTake = 0 + prev[target];
+                int take = (int)Math.pow(10,9);
+                if(arr[ind]<=target)  take = 1 + cur[target - arr[ind]];
+                cur[target] = Math.min(notTake, take);
+            }
+            prev = cur;
+        }
+
+        int ans = prev[T];
+        if(ans >=(int)Math.pow(10,9)) return -1;
+        return ans;
     }
 }
+
+
+
+
