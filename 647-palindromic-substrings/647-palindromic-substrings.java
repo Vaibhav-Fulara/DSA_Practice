@@ -1,19 +1,20 @@
 class Solution {
     public int countSubstrings(String s) {
         int count = 0;
+        boolean[][]dp = new boolean[s.length()][s.length()];
         for(int i=0; i<s.length(); i++){
-            for(int j=i+1; j<=s.length(); j++){
-                if(check(s.substring(i,j))) count++;                
+            for(int j=i; j<s.length(); j++){
+                if(check(s, i, j, dp)) count++;                
             }
         }
         return count;
     }
-    public boolean check(String str){
-        int l = 0, r = str.length()-1;
+    public boolean check(String str, int l, int r, boolean[][]dp){
         while(l<r) {
+            if(dp[l][r] == true) return true;
             if(str.charAt(l) != str.charAt(r)) return false;
             l++; r--;
         }
-        return true;
+        return dp[l][r] = true;
     }
 }
