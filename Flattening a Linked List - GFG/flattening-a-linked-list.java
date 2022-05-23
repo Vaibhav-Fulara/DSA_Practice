@@ -99,63 +99,31 @@ class Flatttening_A_LinkedList
 }// } Driver Code Ends
 
 
-/*Node class  used in the program
-class Node
-{
-	int data;
-	Node next;
-	Node bottom;
-	
-	Node(int d)
-	{
-		data = d;
-		next = null;
-		bottom = null;
-	}
-}
-*/
-/*  Function which returns the  root of 
-    the flattened linked list. */
-    
-    
 class GfG{
-        Node mergeTwoLists(Node a, Node b) {
-        
-        Node temp = new Node(0);
-        Node res = temp; 
-        
-        while(a != null && b != null) {
-            if(a.data < b.data) {
-                temp.bottom = a; 
-                temp = temp.bottom; 
-                a = a.bottom; 
-            }
-            else {
-                temp.bottom = b;
-                temp = temp.bottom; 
-                b = b.bottom; 
-            }
-        }
-        
-        if(a != null) temp.bottom = a; 
-        else temp.bottom = b;
-        return res.bottom; 
-    
+    Node flatten(Node root) {
+        if(root == null || root.next == null) return root;
+	    root.next = flatten(root.next);
+	    root = mergeLists(root, root.next);
+	    return root;
     }
-    Node flatten(Node root)
-    {
-       
-            if (root == null || root.next == null) 
-                return root; 
-      
-            // recur for list on right 
-            root.next = flatten(root.next); 
-      
-            // now merge 
-            root = mergeTwoLists(root, root.next); 
-      
-            // return the root 
-            // it will be in turn merged with its left 
-            return root; 
+    
+    Node mergeLists(Node root1, Node root2){
+
+        Node node = new Node(0);
+        Node temp = node;
+	    while(root1 != null && root2!=null){
+	        if(root1.data < root2.data) {
+	            node.bottom = root1;
+    	        root1 = root1.bottom;
+    	        node = node.bottom;
+	        }
+	        else{
+	            node.bottom = root2;
+    	        root2 = root2.bottom;
+    	        node = node.bottom;
+	        }
+	    }
+	    node.bottom = root1 == null? root2:root1;
+	    return temp.bottom;
     }
 }
