@@ -117,7 +117,7 @@ class Solution{
         
         int left = maxPathSum(root.left);
         int right = maxPathSum(root.right);
-        int add = Math.max(0, Math.max(left, right));
+        int add = Math.max(left, right);
         
         return root.data + add;
     }
