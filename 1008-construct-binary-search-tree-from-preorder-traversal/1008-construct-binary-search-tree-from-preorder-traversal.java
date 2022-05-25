@@ -14,21 +14,18 @@
  * }
  */
 class Solution {
+    int idx = 0;
     public TreeNode bstFromPreorder(int[] preorder) {
-        int n = preorder.length;
-        return getBST(preorder, 0, n-1);
+        return getBST(preorder, Integer.MAX_VALUE);
     }
-    public TreeNode getBST(int[]pre, int lo, int hi){
-        if(lo > hi) return null;
-        if(lo == hi) return new TreeNode(pre[lo]);
-        
-        TreeNode head = new TreeNode (pre[lo]);
-        
-        int idx = lo + 1;
-        while(idx<pre.length && pre[idx] < pre[lo]) idx++;
-        
-        head.left = getBST(pre, lo + 1, idx-1);
-        head.right = getBST(pre, idx, hi);
-        return head;
+    public TreeNode getBST(int[]pre, int hi){
+        if(idx == pre.length) return null;
+        else if(pre[idx] < hi){
+            TreeNode node = new TreeNode(pre[idx++]);
+            node.left = getBST(pre, node.val);
+            node.right = getBST(pre, hi);
+            return node;
+        }
+        return null;
     }
 }
