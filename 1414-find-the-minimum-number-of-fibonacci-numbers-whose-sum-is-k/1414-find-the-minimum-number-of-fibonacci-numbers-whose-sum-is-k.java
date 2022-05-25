@@ -18,7 +18,7 @@ class Solution {
                 continue;
             }
             dp[i] = dp[i-1] + dp[i-2];
-            if(dp[i] >= n || dp[i]<0) return;            
+            if(dp[i]<0) return;            
             i++;
         }
     }
