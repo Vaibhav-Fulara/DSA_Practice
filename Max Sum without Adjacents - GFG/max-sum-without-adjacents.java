@@ -31,14 +31,16 @@ public class Main {
 
 class Solution {
     int findMaxSum(int arr[], int n) {
-        int[]dp = new int[n];
+        int dp1 = 0;
+        int dp2 = 0;
         for(int i=n-1; i>=0; i--){
-            if(i==n-1) {dp[i] = arr[i]; continue;}
-            if(i==n-2) {dp[i] = Math.max(arr[i],arr[i+1]); continue;}
-            int pick = arr[i] + dp[i+2];
-            int notpick = dp[i+1];
-            dp[i] = Math.max(pick, notpick);
+            if(i==n-1) {dp2 = arr[i]; continue;}
+            if(i==n-2) {dp1 = Math.max(arr[i],arr[i+1]); continue;}
+            int pick = arr[i] + dp2;
+            int notpick = dp1;
+            dp2 = dp1;
+            dp1 = Math.max(pick, notpick);
         }
-        return dp[0];
+        return dp1 == 0? dp2:dp1;
     }
 }
