@@ -26,21 +26,20 @@ class GfG
 class Solution{
 	public int minCoins(int coins[], int M, int V){ 
 	    int[]dp = new int[V+1];
-	    Arrays.fill(dp, -1);
+	    Arrays.fill(dp, Integer.MAX_VALUE - 1);
 	    
-	    int evaluate =  getMinCoins(coins, V, dp);
-	    
-	    return evaluate == Integer.MAX_VALUE? -1:evaluate;
-	} 
-	public int getMinCoins(int[]arr, int tar, int[]dp){
-	    if(dp[tar] != -1) return dp[tar];
-	    int minCoins = Integer.MAX_VALUE - 1;
-	    for(int ele:arr){
-	        if(tar == ele) return dp[tar] = 1;
-	        int curr = Integer.MAX_VALUE;
-	        if(tar > ele) curr = getMinCoins(arr,tar-ele,dp);
-	        minCoins = Math.min(minCoins, curr);
+	    for(int i=0; i<=V; i++){
+	        for(int j=0; j<M; j++){
+	            if(i == coins[j]) {
+	                dp[i] = 1;
+	                continue;
+	            }
+    	        if(i > coins[j]){
+    	            int val = dp[i-coins[j]] + 1;
+    	            if(val< dp[i]) dp[i] = val;
+    	        } 
+	        }
 	    }
-	    return dp[tar] =minCoins + 1;
+	    return dp[V] == Integer.MAX_VALUE-1? -1:dp[V];
 	}
 }
