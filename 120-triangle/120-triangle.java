@@ -1,24 +1,25 @@
 class Solution {
-    public int minimumTotal(List<List<Integer>> triangle) {
-        int n = triangle.size();
-        int[][]dp = new int[n][n];
-        for(int[]val:dp) Arrays.fill(val, -1);
-        return getMinPath(triangle,n-1,dp);
-    }
-    public int getMinPath(List<List<Integer>>al, int dr, int[][]dp){
+    public int minimumTotal(List<List<Integer>> al) {
+        int n = al.size();
+        
+        int[]prev = new int[n];
+        
+        int dr = n-1;
         for(int sr=dr; sr>=0; sr--){
+            int[]curr = new int[n];
             for(int sc = sr; sc>=0; sc--){
                 if(sr == dr || sc == dr){
-                    dp[sr][sc] = al.get(sr).get(sc);
+                    curr[sc] = al.get(sr).get(sc);
                     continue;
                 } 
 
-                int one = dp[sr+1][sc];
-                int two = dp[sr+1][sc+1];
+                int one = prev[sc];
+                int two = prev[sc+1];
 
-                dp[sr][sc] = Math.min(one, two) + al.get(sr).get(sc);
+                curr[sc] = Math.min(one, two) + al.get(sr).get(sc);
             }
+            prev = curr;
         }
-        return dp[0][0];
+        return prev[0];
     }
 }
