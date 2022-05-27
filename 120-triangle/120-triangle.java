@@ -6,7 +6,7 @@ class Solution {
         
         int dr = n-1;
         for(int sr=dr; sr>=0; sr--){
-            int[]curr = new int[n];
+            int[]curr = new int[sr+1];
             for(int sc = sr; sc>=0; sc--){
                 if(sr == dr || sc == dr){
                     curr[sc] = al.get(sr).get(sc);
