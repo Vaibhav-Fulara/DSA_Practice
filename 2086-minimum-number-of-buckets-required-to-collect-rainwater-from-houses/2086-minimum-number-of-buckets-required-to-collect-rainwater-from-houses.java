@@ -31,13 +31,11 @@ class Solution {
                 }
                 else if(prev2 == '.' || prev2 == 'W') {
                     if(next== '.') str.setCharAt(i+1, 'W');
-                    else str.setCharAt(i-1,'W');
                     ans++;
                 }
                 else if(prev2 == 'H') {
                     if(prev1 == '.'){
                         if(next== '.') str.setCharAt(i+1, 'W');
-                        else str.setCharAt(i-1,'W');
                         ans++;
                     }
                 }
