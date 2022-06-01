@@ -1,8 +1,8 @@
 class Solution {
     public int[] sumOfDistancesInTree(int n, int[][] edges) {       
         
-        Set<Integer>[]graph = new HashSet[n];               // graph made of integer as their are no wts and dests
-        for(int i=0; i<n; i++) graph[i] = new HashSet<>();  // assigning a hashset to each graph inde (could have done with al)
+        ArrayList<Integer>[]graph = new ArrayList[n];               // graph made of integer as their are no wts and dests
+        for(int i=0; i<n; i++) graph[i] = new ArrayList<>();  // assigning a hashset to each graph inde (could have done with al)
         
         for(int[]edge:edges){
             int src = edge[0], dest = edge[1];
@@ -19,7 +19,7 @@ class Solution {
         return res;
     }
     
-    public void generateResult(Set<Integer>[]graph, int[]nodes, int[]res, int src, int par){
+    public void generateResult(List<Integer>[]graph, int[]nodes, int[]res, int src, int par){
         for(int nbr:graph[src]){
             if(nbr != par){
                 res[nbr] = res[src] + nodes.length - nodes[nbr] - nodes[nbr];
@@ -28,7 +28,7 @@ class Solution {
         }
     }
     
-    public void populate(Set<Integer>[]graph, int[]nodes, int[]res, int src, int par){
+    public void populate(List<Integer>[]graph, int[]nodes, int[]res, int src, int par){
         for(int nbr:graph[src]){                        // we dont return as in the end, the leaf node has only one nbr: the parent
             if(nbr != par){                             // making sure that the node doesn't takes into account the parent node
                 populate(graph, nodes, res, nbr, src);  // recursive post order traversal
@@ -41,7 +41,3 @@ class Solution {
         nodes[src]++;
     }
 }
-
-
-
-
