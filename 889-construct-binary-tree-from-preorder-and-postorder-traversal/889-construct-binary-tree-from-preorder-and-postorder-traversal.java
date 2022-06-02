@@ -22,9 +22,9 @@ class Solution {
     }
     public TreeNode getTree(Map<Integer, Integer>hm, int[]pre, int prel, int prer, int postl, int postr){
         if(prel > prer) return null;
+        if(prel == prer) return new TreeNode(pre[prel]);
         
         TreeNode node = new TreeNode(pre[prel]);
-        if(prel == prer) return node;
         
         int lhs = hm.get(pre[prel + 1]);
         int count = lhs - postl;
