@@ -5,18 +5,23 @@ class Solution {
         if(sum % 2 != 0) return false;
         int k = sum/2;
         
-        boolean[][]dp = new boolean[arr.length +1][k + 1];
-        for(boolean[]val:dp) val[0] = true;
+        boolean[]prev = new boolean[k + 1];
+        prev[0] = true;
         
         for(int i=arr.length-1; i>=0; i--){
-            if(arr[i] <= k) dp[i][arr[i]] = true;
+            
+            boolean[]curr = new boolean[k + 1];
+            curr[0] = true;
+            
+            if(arr[i] <= k) curr[arr[i]] = true;
             for(int tar = 1; tar<=k; tar++){
                 boolean contain = false;
-                if(arr[i] <= tar) contain = dp[i+1][tar - arr[i]];
-                boolean ignore = dp[i+1][tar];
-                dp[i][tar] = contain || ignore;
+                if(arr[i] <= tar) contain = prev[tar - arr[i]];
+                boolean ignore = prev[tar];
+                curr[tar] = contain || ignore;
             }
+            prev = curr;
         }
-        return dp[0][k];
+        return prev[k];
     }
 }
