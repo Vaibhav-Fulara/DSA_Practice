@@ -1,29 +1,29 @@
 class Solution {
-    public int findTargetSumWays(int[]arr, int target) {
+    public int findTargetSumWays(int[] a, int target) {        
+        int totalSum = 0;
+        for(int i: a) totalSum += i;
         
-        int sum = 0;
-        for(int val:arr) sum += val;
-        int k = sum - target;
-        if(k < 0 || k%2 != 0) return 0;
-        k /= 2;
+        if (target + totalSum < 0 || (target + totalSum)%2 != 0) return 0;
+        int n =a.length;
+        int sum = (target + totalSum)/2;
         
-        int[][]dp = new int[arr.length+1][k+1];
-        for(int[]val:dp) Arrays.fill(val,-1);
+        int[] dp=new int[sum+1];
         
-        return helper(arr, k, 0, dp);
-    }
-    
-    public int helper(int[]arr, int tar, int i, int[][]dp){
-        if(tar < 0) return 0;
-        if(i == arr.length){
-            if(tar == 0) return dp[i][tar] = 1;
-            return dp[i][tar] = 0;
-        }
+        if(a[0] == 0) dp[0] = 2;
+        else dp[0] = 1;
+        if(a[0] !=0 && a[0] <= sum ) dp[a[0]] = 1;
         
-        if(dp[i][tar] != -1) return dp[i][tar];
-        
-        int count = 0;
-        count += helper(arr, tar-arr[i], i+1, dp) + helper(arr, tar, i+1, dp);
-        return dp[i][tar] = count;
+        for(int i = 1; i<n; i++){
+            int[] curr=new int[sum+1];
+            for(target=0;target<=sum;target++){
+                int notPick = dp[target];
+                int pick = 0;
+                if(target >= a[i])
+                    pick = dp[target-a[i]];
+                curr[target] = pick+notPick;
+            }
+            dp=curr;
+        }       
+        return dp[sum];        
     }
 }
