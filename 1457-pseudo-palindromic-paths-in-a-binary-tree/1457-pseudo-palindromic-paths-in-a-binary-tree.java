@@ -17,23 +17,30 @@
 
 class Solution {
     public int pseudoPalindromicPaths (TreeNode root) {
-        Set<Integer>hs = new HashSet<>();
-        return getPalindrome(root, hs);
+        int[]arr = new int[10];
+        return getPalindrome(root, arr);
     }
-    public int getPalindrome(TreeNode root, Set<Integer>hs){
+    public int getPalindrome(TreeNode root, int[]arr){
         
         if(root == null) return 0;
-        
-        if(hs.contains(root.val)) hs.remove(root.val);
-        else hs.add(root.val);
+        arr[root.val]++;
         
         int count = 0;
-        if(root.left == null && root.right == null) if(hs.size()<=1) count++;
+        if(root.left == null && root.right == null){
+            if(check(arr)) count++;
+        }
         
-        count += getPalindrome(root.right, hs) + getPalindrome(root.left, hs);
+        count += getPalindrome(root.right, arr) + getPalindrome(root.left, arr);
         
-        if(hs.contains(root.val)) hs.remove(root.val);
-        else hs.add(root.val);
+        arr[root.val]--;
         return count;
+    }
+    public boolean check(int[]arr){
+        int uni = 0;
+        for(int val:arr) {
+            if(val % 2 !=0) uni++;
+            if(uni > 1) return false;
+        }
+        return true;
     }
 }
