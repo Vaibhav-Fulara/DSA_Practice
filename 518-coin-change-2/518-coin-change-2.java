@@ -42,6 +42,7 @@ class Solution {
 */
 
 // Tabulation
+/*
 class Solution {
     public int change(int k, int[] arr) {
         int[][]dp = new int[arr.length][k+1];
@@ -60,5 +61,29 @@ class Solution {
             }
         }
         return dp[arr.length-1][k];
+    }
+}
+*/
+
+// Space Optimization
+class Solution {
+    public int change(int k, int[] arr) {
+        int[]prev = new int[k+1];
+        for(int i = 0; i<arr.length; i++){
+            int[]curr = new int[k+1];
+            for(int tar = 0; tar<=k; tar++){
+                if(i == 0){
+                    if(tar % arr[i] == 0) curr[tar] = 1;
+                    else curr[tar] = 0;
+                    continue;
+                }
+                int include = 0;
+                if(arr[i] <= tar) include = curr[tar-arr[i]];
+                int ignore = prev[tar];
+                curr[tar] = include + ignore;
+            }
+            prev = curr;
+        }
+        return prev[k];
     }
 }
