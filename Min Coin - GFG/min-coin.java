@@ -32,25 +32,48 @@ class GFG
 
 //User function Template for Java
 
+// class Solution{
+//     public int MinCoin(int[] nums, int amount){
+//         int[][]dp = new int[nums.length][amount+1];
+//         for(int[]ar:dp) Arrays.fill(ar, -1);
+//         int ans = getMinCoins(nums, amount, 0, dp);
+//         return ans >= 1e9? -1:ans;
+//     }
+//     public int getMinCoins(int[]nums, int amount, int i, int[][]dp){
+//         if(i == nums.length-1){
+//             if(amount % nums[i] == 0) return dp[i][amount] = amount/nums[i];    
+//             // note that it will five zero also when amount == 0
+//             return dp[i][amount] = (int)1e9;
+//         }
+        
+//         if(dp[i][amount] != -1) return dp[i][amount];
+        
+//         int take = (int)1e9;
+//         if(amount >= nums[i]) take = 1 + getMinCoins(nums, amount-nums[i], i, dp);
+//         int notTake = getMinCoins(nums, amount, i+1, dp);
+        
+//         return dp[i][amount] = Math.min(take, notTake);
+//     }
+// }
+
 class Solution{
-    public int MinCoin(int[] nums, int amount){
-        int[][]dp = new int[nums.length][amount+1];
-        for(int[]ar:dp) Arrays.fill(ar, -1);
-        int ans = getMinCoins(nums, amount, 0, dp);
-        return ans >= 1e9? -1:ans;
-    }
-    public int getMinCoins(int[]nums, int amount, int i, int[][]dp){
-        if(i == nums.length-1){
-            if(amount % nums[i] == 0) return dp[i][amount] = amount/nums[i];
-            return dp[i][amount] = (int)1e9;
+    public int MinCoin(int[] nums, int tar){
+        int[][]dp = new int[nums.length][tar+1];
+        for(int i=nums.length-1; i>=0; i--){
+            for(int amount = 1; amount <= tar; amount++){
+                if(i == nums.length-1){
+                    if(amount % nums[i] == 0) dp[i][amount] = amount/nums[i];
+                    else dp[i][amount] = (int)1e9;
+                    continue;
+                }
+            
+                int take = (int)1e9;
+                if(amount >= nums[i]) take = 1 + dp[i][amount-nums[i]];
+                int notTake = dp[i+1][amount];
+                
+                dp[i][amount] = Math.min(take, notTake);
+            }
         }
-        
-        if(dp[i][amount] != -1) return dp[i][amount];
-        
-        int take = (int)1e9;
-        if(amount >= nums[i]) take = 1 + getMinCoins(nums, amount-nums[i], i, dp);
-        int notTake = getMinCoins(nums, amount, i+1, dp);
-        
-        return dp[i][amount] = Math.min(take, notTake);
+        return dp[0][tar] >= 1e9? -1:dp[0][tar];
     }
 }
