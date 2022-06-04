@@ -31,7 +31,8 @@ class GFG{
 
 //User function Template for Java
 
-class Solution{
+// Memoisation
+/*class Solution{
     static int knapSack(int N, int W, int val[], int wt[]){
         int[][]dp = new int[val.length][W+1];
         for(int[]ar:dp) Arrays.fill(ar, -1);
@@ -49,5 +50,25 @@ class Solution{
         if(wt[i] <= max) pick = val[i] + solve(i, max-wt[i], val, wt, dp);
         int ignore = solve(i-1, max, val, wt, dp);
         return dp[i][max] = Math.max(pick, ignore);
+    }
+}*/
+    
+// Tabulation
+class Solution{
+    static int knapSack(int N, int W, int val[], int wt[]){
+        int[][]dp = new int[val.length][W+1];
+        for(int i=0; i<val.length; i++){
+            for(int max = 0; max<=W; max++){
+                if(i == 0){
+                    if(wt[i] <= max) dp[i][max] = max/wt[i]*val[i];
+                    continue;
+                }
+                int pick = -1;
+                if(wt[i] <= max) pick = val[i] + dp[i][max-wt[i]];
+                int ignore = dp[i-1][max];
+                dp[i][max] = Math.max(pick, ignore);
+            }
+        }
+        return dp[wt.length-1][W];
     }
 }
