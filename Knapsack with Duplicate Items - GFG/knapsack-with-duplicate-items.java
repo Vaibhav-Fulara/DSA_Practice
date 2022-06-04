@@ -54,7 +54,7 @@ class GFG{
 }*/
     
 // Tabulation
-class Solution{
+/*class Solution{
     static int knapSack(int N, int W, int val[], int wt[]){
         int[][]dp = new int[val.length][W+1];
         for(int i=0; i<val.length; i++){
@@ -70,5 +70,27 @@ class Solution{
             }
         }
         return dp[wt.length-1][W];
+    }
+}*/
+
+// Space Optimization
+class Solution{
+    static int knapSack(int N, int W, int val[], int wt[]){
+        int[]prev = new int[W+1];
+        for(int i=0; i<val.length; i++){
+            int[]curr = new int[W+1];
+            for(int max = 0; max<=W; max++){
+                if(i == 0){
+                    if(wt[i] <= max) curr[max] = max/wt[i]*val[i];
+                    continue;
+                }
+                int pick = -1;
+                if(wt[i] <= max) pick = val[i] + curr[max-wt[i]];
+                int ignore = prev[max];
+                curr[max] = Math.max(pick, ignore);
+            }
+            prev = curr;
+        }
+        return prev[W];
     }
 }
