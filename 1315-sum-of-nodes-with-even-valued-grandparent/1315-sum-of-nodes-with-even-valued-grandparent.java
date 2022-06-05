@@ -16,21 +16,19 @@
 class Solution {
     public int sumEvenGrandparent(TreeNode root) {
         int ans = 0;
-        return getSum(root);
+        return getSum(root, -1, -1);
     }
-    public int getSum(TreeNode node){
+    public int getSum(TreeNode node, int par, int grandPar){
         if(node == null) return 0;
         int ans = 0;
         
-        if(node.val%2 == 0){
-            if(node.left != null && node.left.left != null) ans += node.left.left.val;
-            if(node.left != null && node.left.right != null) ans += node.left.right.val;
-            if(node.right != null && node.right.left != null) ans += node.right.left.val;
-            if(node.right != null && node.right.right != null) ans += node.right.right.val;
-        }
+        if(grandPar % 2 == 0) ans += node.val;
         
-        ans += getSum(node.left);
-        ans += getSum(node.right);
+        grandPar = par;
+        par = node.val;
+        
+        ans += getSum(node.left, par, grandPar);
+        ans += getSum(node.right, par, grandPar);
         
         return ans;
     }
