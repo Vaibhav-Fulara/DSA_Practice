@@ -41,7 +41,7 @@ class Solution {
 */
 
 // O(nlogn)
-
+/*
 class Solution{
     public TreeNode sortedListToBST(ListNode head){
         if(head == null) return null;
@@ -63,5 +63,44 @@ class Solution{
         node.right = helper(slo.next, tail);
         
         return node;
+    }
+}
+*/
+
+// O(n)
+
+class Solution{
+    
+    private ListNode node;
+
+    public TreeNode sortedListToBST(ListNode head) {
+        if(head == null) return null;
+
+        int size = 0;
+        ListNode temp = head;
+        node = head;
+
+        while(temp != null){
+            temp = temp.next;
+            size ++;
+        }
+
+        return inorderHelper(0, size - 1);
+    }
+
+    public TreeNode inorderHelper(int start, int end){
+        if(start > end)  return null;
+
+        int mid = start + (end - start) / 2;
+        TreeNode left = inorderHelper(start, mid - 1);
+
+        TreeNode treenode = new TreeNode(node.val);
+        treenode.left = left;
+        node = node.next;
+
+        TreeNode right = inorderHelper(mid + 1, end);
+        treenode.right = right;
+
+        return treenode;
     }
 }
