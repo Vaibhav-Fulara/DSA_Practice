@@ -23,23 +23,22 @@ public class Codec {
     // Decodes your encoded data to tree.
     public TreeNode deserialize(String str) {
         if(str.charAt(0) == '.') return null;
-        String[]arr = str.split(" ");
+        
         Stack<pair>st = new Stack<>();
+        String[]arr = str.split(" ");
         
         TreeNode root = new TreeNode (Integer.parseInt(arr[0]));
         st.add(new pair(root, 0));
         
         int i=1;
         
-        while(st.size() != 0 && i < arr.length){
+        while(st.size() != 0){
             
             String s = arr[i];
             pair p = st.pop();
             
             if(p.state == 0){
-                if(s.equals(".")) {
-                    st.add(new pair(p.node, 1));
-                }
+                if(s.equals("."))  st.add(new pair(p.node, 1));
                 else {
                     p.node.left = new TreeNode(Integer.parseInt(s));
                     st.add(new pair(p.node, 1));
@@ -48,10 +47,7 @@ public class Codec {
             }
             
             else if(p.state == 1){
-                if(s.equals(".")) {
-                    st.add(new pair(p.node, 2));
-                }
-                else {
+                if(! s.equals(".")){
                     p.node.right = new TreeNode(Integer.parseInt(s));
                     st.add(new pair(p.node.right, 0));
                 }
