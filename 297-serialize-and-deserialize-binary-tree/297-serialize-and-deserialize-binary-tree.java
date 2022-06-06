@@ -37,7 +37,6 @@ public class Codec {
         while(st.size() != 0 && i < arr.length){
             
             String s = arr[i];
-            System.out.println(s);
             pair p = st.pop();
             
             if(p.state == 0){
