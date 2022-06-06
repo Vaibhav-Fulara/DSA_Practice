@@ -34,15 +34,13 @@ public class Codec {
         
         int i=1;
         
-        while(st.size() != 0 && i < arr.length){
+        while(st.size() != 0){
             
             String s = arr[i];
             pair p = st.pop();
             
             if(p.state == 0){
-                if(s.equals(".")) {
-                    st.add(new pair(p.node, 1));
-                }
+                if(s.equals("."))  st.add(new pair(p.node, 1));
                 else {
                     p.node.left = new TreeNode(Integer.parseInt(s));
                     st.add(new pair(p.node, 1));
