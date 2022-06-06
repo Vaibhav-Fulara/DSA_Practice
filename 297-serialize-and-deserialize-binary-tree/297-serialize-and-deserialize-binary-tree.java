@@ -51,10 +51,7 @@ public class Codec {
             }
             
             else if(p.state == 1){
-                if(s.equals(".")) {
-                    st.add(new pair(p.node, 2));
-                }
-                if(!s.equals(".")) {
+                if(! s.equals(".")){
                     p.node.right = new TreeNode(Integer.parseInt(s));
                     st.add(new pair(p.node.right, 0));
                 }
