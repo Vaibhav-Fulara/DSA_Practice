@@ -5,7 +5,7 @@ class Solution {
             lo = Math.max(lo, i);
             hi += i;
         }
-        while(lo < hi){
+        while(lo <= hi){
             int mid = lo + (hi-lo)/2;
             int min = 1, curr = 0;
             
@@ -17,7 +17,7 @@ class Solution {
                 }
             }
             
-            if(min <= m) hi = mid;
+            if(min <= m) hi = mid-1;
             else lo = mid+1;
         }
         return lo;
