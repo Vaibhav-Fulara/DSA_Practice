@@ -6,18 +6,17 @@ class Solution {
         for(int i=0; i<n; i++){
             for(int j=0; j<m; j++){
                 if(arr[i][j] != 0){
-                    empty--;
-                    if(arr[i][j] == 1) {sr = i; sc = j; empty++;}
-                    else if(arr[i][j] == 2) {er = i; ec = j;}
+                    if(arr[i][j] == 1) {sr = i; sc = j;}
+                    else empty--;
                 }
             }
         }
         
         int[][]dirs = {{-1, 0}, {1,0}, {0, -1}, {0,1}};
-        return getPaths(arr, sr, sc, er, ec, empty, dirs);
+        return getPaths(arr, sr, sc, empty, dirs);
     }
-    public int getPaths(int[][]arr, int sr, int sc, int er, int ec, int empty, int[][]dirs){
-        if(sr == er && sc == ec) {
+    public int getPaths(int[][]arr, int sr, int sc, int empty, int[][]dirs){
+        if(arr[sr][sc] == 2) {
             if(empty == 0) return 1;
             return 0;
         }
@@ -30,7 +29,7 @@ class Solution {
             arr[sr][sc] = -1;
             if(x >= 0 && y >= 0 && x < arr.length && y<arr[0].length){
                 if(arr[x][y] != -1){
-                    ans += getPaths(arr, x, y, er, ec, empty-1, dirs);
+                    ans += getPaths(arr, x, y, empty-1, dirs);
                 }
             }
             arr[sr][sc] = 0;
