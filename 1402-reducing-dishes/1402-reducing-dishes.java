@@ -5,18 +5,12 @@ class Solution {
         
         Arrays.sort(arr);
         
-        for(int i=0; i<arr.length; i++){
-            if(arr[i] >= 0) {
-                if(flag) break;
-                else flag = true;
-            }
-            
-            int j = 1, curr = 0;
-            for(int k=i; k<arr.length; k++){
-                curr += arr[k]*j;
-                j++;
-            }
-            max = Math.max(curr, max);
+        int sum = 0, curr = 0;
+        for(int i=arr.length-1; i>=0; i--){
+            curr += arr[i];
+            sum += curr;
+            if(max < sum) max = sum;
+            else break;
         }
         return max;
     }
