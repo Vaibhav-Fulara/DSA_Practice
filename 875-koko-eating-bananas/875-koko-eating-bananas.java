@@ -6,7 +6,7 @@ class Solution {
             int mid = lo + (hi-lo)/2;
             int count = 0;
             
-            for(int i:arr) count += (i+mid-1)/mid;
+            for(int i:arr) count += Math.ceil(i*1.0/mid);
             
             if(count <= h) hi = mid-1;
             else lo = mid + 1;
