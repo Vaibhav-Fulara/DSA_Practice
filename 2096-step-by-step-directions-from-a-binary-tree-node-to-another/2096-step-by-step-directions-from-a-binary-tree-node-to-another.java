@@ -14,27 +14,35 @@
  * }
  */
 class Solution {
-    public String getDirections(TreeNode root, int startValue, int destValue) {
-        StringBuilder strt = new StringBuilder(), end = new StringBuilder();
-        find(root, startValue, strt);
-        find(root, destValue, end);
+    public String getDirections(TreeNode root, int strt, int dest) {
         
-        strt.reverse();
-        end.reverse();
+        List<Character> al1 = new ArrayList<>(), al2 = new ArrayList<>();
         
-        int i=0;
-        while(i < end.length() && i < strt.length() && strt.charAt(i) == end.charAt(i)) i++; 
+        getLca(root, strt, al1);
+        getLca(root, dest, al2);
         
-        String ans = "U".repeat(strt.length()-i);
-        ans += end.toString().substring(i, end.length());
-        return ans;
+        int n1 = al1.size()-1, n2 = al2.size()-1, i=0;
+        
+        while(n1>=0 && n2>=0 && al1.get(n1) == al2.get(n2)){
+            i++; n1--; n2--;
+        }
+        
+        StringBuilder ans = new StringBuilder();
+        i = al1.size() - i;
+        
+        while(i!=0) {
+            ans.append('U');
+            i--;
+        }
+        
+        for(int idx = n2; idx>=0; idx--) ans.append(al2.get(idx));
+        return ans.toString();
     }
-    private boolean find(TreeNode n, int val, StringBuilder sb) {
-        if (n.val == val) return true;
-        if (n.left != null && find(n.left, val, sb)) sb.append("L");
-        else if (n.right != null && find(n.right, val, sb)) sb.append("R");
-        return sb.length() > 0;
+    public boolean getLca(TreeNode root, int val, List<Character>al){
+        if(root == null) return false;
+        if(root.val == val) return true;
+        if(getLca(root.left, val, al)) {al.add('L'); return true;}
+        if(getLca(root.right, val, al)) {al.add('R'); return true;}
+        return false;
     }
 }
-
-
