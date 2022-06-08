@@ -16,7 +16,6 @@ class Solution {
 }
 */
 
-
 // Memoization
 // Time Complexity = O(m*n)
 // Space Complexity = O(m*n) + O(max(m + n))
@@ -44,6 +43,7 @@ class Solution {
 // Tabulation
 // Time Complexity = O(m*n)
 // Space Complexity = O(m*n)
+/*
 class Solution {
     public int longestCommonSubsequence(String s1, String s2) {
         int m = s1.length(), n = s2.length();
@@ -62,5 +62,32 @@ class Solution {
         }
         
         return dp[m][n];
+    }
+}
+*/
+
+// Spatial Optimization
+// Time Complexity = O(m*n)
+// Space Complexity = O(n)
+class Solution {
+    public int longestCommonSubsequence(String s1, String s2) {
+        int m = s1.length(), n = s2.length();
+        
+        int[]prev = new int[n+1];
+        
+        for(int i=0; i<m+1; i++){
+            int[]curr = new int[n+1];
+            for(int j=0; j<n+1; j++){
+                if(i==0 || j==0) {curr[j] = 0; continue;}
+                if(s1.charAt(i-1) == s2.charAt(j-1)){
+                    curr[j] = 1 + prev[j-1];
+                    continue;
+                }
+                curr[j] = Math.max (prev[j], curr[j-1]);
+            }
+            prev = curr;
+        }
+        
+        return prev[n];
     }
 }
