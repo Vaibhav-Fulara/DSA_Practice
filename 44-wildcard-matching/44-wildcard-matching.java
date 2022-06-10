@@ -55,7 +55,7 @@ class Solution {
 */
 
 // Tabulation
-
+/*
 class Solution {
     public boolean isMatch(String s1, String s2) {
         boolean[][]dp  =new boolean[s1.length()+1][s2.length()+1];
@@ -76,5 +76,32 @@ class Solution {
             }
         }
         return dp[s1.length()][s2.length()];
+    }
+}
+*/
+
+// Space Optimization
+class Solution {
+    public boolean isMatch(String s1, String s2) {
+        boolean[]prev  =new boolean[s2.length()+1];
+        for(int i=0; i<=s1.length(); i++){
+            boolean[]curr  =new boolean[s2.length()+1];
+            for(int j=0; j<=s2.length(); j++){
+                if(i == 0 && j == 0) {curr[j] = true; continue;}
+                else if(j==0) continue;
+                else if(i == 0){
+                    boolean flag = true;
+                    for(int k=1; k<=j; k++) if(s2.charAt(k-1) != '*') flag = false;
+                    if(flag) curr[j] = true;
+                    continue;
+                }
+                
+                if(s2.charAt(j-1) == '?' || s2.charAt(j-1) == s1.charAt(i-1)) curr[j] = prev[j-1];
+                else if(s2.charAt(j-1) == '*') curr[j] = prev[j] || curr[j-1];
+                else curr[j] = false;
+            }
+            prev = curr;
+        }
+        return prev[s2.length()];
     }
 }
