@@ -21,6 +21,7 @@ class Solution {
 */
 
 // Tabulation
+/*
 class Solution {
     public int minDistance(String s1, String s2) {
         int n1 = s1.length(), n2 = s2.length();
@@ -34,5 +35,25 @@ class Solution {
             }
         }
         return dp[0][0];
+    }
+}
+*/
+
+// Space Optimization
+class Solution {
+    public int minDistance(String s1, String s2) {
+        int n1 = s1.length(), n2 = s2.length();
+        int[]prev = new int[n2+1];
+        for(int i=n1; i>=0; i--){
+            int[]curr = new int[n2+1];
+            for(int j=n2; j>=0; j--){
+                if(i == n1) curr[j] = n2-j;
+                else if(j == n2) curr[j] = n1-i;
+                else if(s1.charAt(i) == s2.charAt(j)) curr[j] = prev[j+1];
+                else curr[j] = 1 + Math.min(prev[j], Math.min(curr[j+1], prev[j+1]));
+            }
+            prev = curr;
+        }
+        return prev[0];
     }
 }
