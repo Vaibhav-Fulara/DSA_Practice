@@ -1,6 +1,6 @@
 // Memoization
 // TC = O(m*n)
-// SC = O(m*n) + O(m+n)
+// SC = O(m*n) + O(m*n)
 /*
 class Solution {
     public int numDistinct(String s, String t) {
@@ -19,7 +19,9 @@ class Solution {
 */
 
 // Tabulation
-
+// TC = O(m*n) + O(n)
+// SC = O(m*n)
+/*
 class Solution {
     public int numDistinct(String s, String t) {
         int[][]dp = new int[s.length()+1][t.length()+1];
@@ -33,5 +35,29 @@ class Solution {
             }
         }
         return dp[0][0];
+    }
+}
+*/
+
+// Space Optimization
+// TC = O(m*n)
+// SC = O(n)
+
+class Solution {
+    public int numDistinct(String s, String t) {
+        int[]prev = new int[t.length()+1];
+        
+        prev[t.length()] = 1;
+            
+        for(int i = s.length()-1; i>=0; i--){
+            int[]curr = new int[t.length()+1];
+            curr[t.length()] = 1;
+            for(int j = t.length()-1; j>=0; j--){
+                if(s.charAt(i) == t.charAt(j)) curr[j] = prev[j+1] + prev[j];
+                else curr[j] = prev[j];
+            }
+            prev = curr;
+        }
+        return prev[0];
     }
 }
