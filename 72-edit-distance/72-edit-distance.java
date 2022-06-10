@@ -1,3 +1,5 @@
+// Memoization
+/*
 class Solution {
     public int minDistance(String s1, String s2) {
         int n1 = s1.length(), n2 = s2.length();
@@ -14,5 +16,23 @@ class Solution {
         if(s1.charAt(i) == s2.charAt(j)) return dp[i][j] = solve(s1, s2, i+1, j+1, dp);
         else return dp[i][j] = 1 + Math.min(solve(s1, s2, i+1, j, dp), Math.min(solve(s1, s2, i, j+1, dp), solve(s1, s2, i+1, j+1, dp)));
         //                                  // deletion                         // insertion                     // replacement
+    }
+}
+*/
+
+// Tabulation
+class Solution {
+    public int minDistance(String s1, String s2) {
+        int n1 = s1.length(), n2 = s2.length();
+        int[][]dp = new int[n1+1][n2+1];
+        for(int i=n1; i>=0; i--){
+            for(int j=n2; j>=0; j--){
+                if(i == n1) dp[i][j] = n2-j;
+                else if(j == n2) dp[i][j] = n1-i;
+                else if(s1.charAt(i) == s2.charAt(j)) dp[i][j] = dp[i+1][j+1];
+                else dp[i][j] = 1 + Math.min(dp[i+1][j], Math.min(dp[i][j+1], dp[i+1][j+1]));
+            }
+        }
+        return dp[0][0];
     }
 }
