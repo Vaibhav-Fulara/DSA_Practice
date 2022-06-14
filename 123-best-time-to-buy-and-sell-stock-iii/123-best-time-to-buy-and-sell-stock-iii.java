@@ -25,6 +25,7 @@ class Solution {
 */
 
 // Memoization
+/*
 class Solution {
     public int maxProfit(int[]arr) {
         int[][][]dp = new int[arr.length][2][2];
@@ -49,5 +50,32 @@ class Solution {
             int ignore = stockexchange(arr, i+1, 1, deals, dp);
             return dp[i][idx][deals] = Math.max(sell, ignore);
         }
+    }
+}
+*/
+
+// Tabulation
+class Solution {
+    public int maxProfit(int[]arr) {
+        int[][][]dp = new int[arr.length + 1][3][3];
+        
+        for(int i = arr.length-1; i>=0; i--){
+            for(int idx = 1; idx >= 0; idx--){
+                for(int deals = 1; deals >= 0; deals--){
+                    if(idx == 0){
+                        int buy = -arr[i] + dp[i+1][1][deals];
+                        int ignore = dp[i+1][0][deals];
+                        dp[i][idx][deals] = Math.max(buy, ignore);
+                    }
+
+                    else{
+                        int sell = arr[i] + dp[i+1][0][deals+1];
+                        int ignore = dp[i+1][1][deals];
+                        dp[i][idx][deals] = Math.max(sell, ignore);
+                    }
+                }
+            }
+        }
+        return dp[0][0][0];
     }
 }
