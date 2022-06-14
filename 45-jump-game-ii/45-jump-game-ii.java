@@ -1,4 +1,6 @@
 // Memoisation
+// TC = O(n^2)
+// SC = O(n) + O(n)
 /*
 class Solution {
     public int jump(int[]arr) {
@@ -19,6 +21,9 @@ class Solution {
 */
 
 // Tabulation
+// TC = O(n^2)
+// SC = O(n)
+/*
 class Solution {
     public int jump(int[]arr) {
         if(arr.length < 2) return 0;
@@ -33,5 +38,21 @@ class Solution {
             dp[i] = min + 1;
         }
         return dp[0];
+    }
+}
+*/
+
+// Another approach
+class Solution{
+    public int jump(int[]arr) {
+        int jumps = 0, curEnd = 0, curFarthest = 0;
+        for (int i = 0; i < arr.length - 1; i++) {
+            curFarthest = Math.max(curFarthest, i + arr[i]);
+            if (i == curEnd) {
+                jumps++;
+                curEnd = curFarthest;
+            }
+        }
+        return jumps;
     }
 }
