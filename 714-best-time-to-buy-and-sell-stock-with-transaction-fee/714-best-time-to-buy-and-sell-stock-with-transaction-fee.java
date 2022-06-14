@@ -1,3 +1,5 @@
+// Memoization
+/*
 class Solution {
     public int maxProfit(int[]arr, int fee) {
         int[][]dp = new int[arr.length][2];
@@ -18,5 +20,25 @@ class Solution {
             int keep = getBestDeal(arr, i+1, 1, dp, fee);
             return dp[i][1] = Math.max(sell, keep);
         }
+    }
+}
+*/
+
+// Tabulation
+class Solution {
+    public int maxProfit(int[]arr, int fee) {
+        
+        int[][]dp = new int[arr.length+2][2];
+        
+        for(int i = arr.length-1; i >= 0; i--){
+            int buy = -arr[i] +dp[i+1][1];
+            int ignore = dp[i+1][0];
+            dp[i][0] = Math.max(buy, ignore);
+            
+            int sell = arr[i] - fee + dp[i+1][0];
+            int keep = dp[i+1][1];
+            dp[i][1] = Math.max(sell, keep);
+        }
+        return dp[0][0];
     }
 }
