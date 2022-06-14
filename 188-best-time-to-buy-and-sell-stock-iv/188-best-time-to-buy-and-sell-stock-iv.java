@@ -1,3 +1,6 @@
+// Memoization
+// TC = O(2*n*k)
+// SC = O(2*n*k) + O(n)
 /*
 class Solution {
     public int maxProfit(int k, int[]arr) {
@@ -26,6 +29,10 @@ class Solution {
 }
 */
 
+// Tabulation
+// TC = O(2*n*k)
+// SC = O(2*n*k)
+/*
 class Solution {
     public int maxProfit(int k, int[]arr) {
         int[][][]dp = new int[arr.length + 1][3][k+1];
@@ -48,5 +55,36 @@ class Solution {
             }
         }
         return dp[0][0][0];
+    }
+}
+*/
+
+// Spatial Optimization
+// O(m*n)
+// SC = O(1)
+class Solution {
+    public int maxProfit(int k, int[]arr) {
+        int[][]prev = new int[3][k+1];
+        
+        for(int i = arr.length-1; i>=0; i--){
+            int[][]curr = new int[3][k+1];
+            for(int idx = 1; idx >= 0; idx--){
+                for(int deals = k-1; deals >= 0; deals--){
+                    if(idx == 0){
+                        int buy = -arr[i] + prev[1][deals];
+                        int ignore = prev[0][deals];
+                        curr[idx][deals] = Math.max(buy, ignore);
+                    }
+
+                    else{
+                        int sell = arr[i] + prev[0][deals+1];
+                        int ignore = prev[1][deals];
+                        curr[idx][deals] = Math.max(sell, ignore);
+                    }
+                }
+            }
+            prev = curr;
+        }
+        return prev[0][0];
     }
 }
