@@ -1,5 +1,6 @@
 // Recursion
-// TC = O(2^n) SC = O(n*2) = O(n) + O(n)
+// TC = O(2^n) 
+// SC = O(n*2) = O(n) + O(n)
 /*
 class Solution {
     public int maxProfit(int[]arr) {
@@ -26,7 +27,8 @@ class Solution {
 */
 
 // Tabulation
-// TC = O(2^n) SC = O(n*2) = O(n)
+// TC = O(2^n) 
+// SC = O(n*2) = O(n)
 /*
 class Solution {
     public int maxProfit(int[]arr) {
@@ -53,6 +55,9 @@ class Solution {
 */
 
 // Space Optimization
+// TC = O(2^n) 
+// SC = O(1)
+/*
 class Solution {
     public int maxProfit(int[]arr) {
         
@@ -75,5 +80,21 @@ class Solution {
             prev = cur;
         }
         return prev[0];
+    }
+}
+*/
+
+// Another Way of Space Optimization
+class Solution {
+    public int maxProfit(int[]arr) {
+        
+        int prevb = 0, prevnb = 0, currb = 0, currnb = 0;
+        for(int i = arr.length-1; i >= 0; i--){
+            currb = Math.max(-arr[i] + prevnb, prevb);        
+            currnb = Math.max(arr[i] + prevb, prevnb);
+            prevb = currb;
+            prevnb = currnb;
+        }
+        return prevb;
     }
 }
