@@ -1,3 +1,6 @@
+// Memoization
+// TC: O(m*n)
+// SC: O(m*n) + O(m+n)
 /*
 class Solution {
     public int minDistance(String word1, String word2) {
@@ -14,6 +17,10 @@ class Solution {
 }
 */
 
+
+// Tabulation
+// TC: O(m*n)
+// SC: O(m*n)
 class Solution {
     public int minDistance(String s1, String s2) {
         int m = s1.length(), n = s2.length();
