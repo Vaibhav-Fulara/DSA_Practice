@@ -1,6 +1,6 @@
 // Recursion
 // TC = O(2^n)
-// SC = O(1)
+// SC = O(n)
 /*
 class Solution {
     public int maxProfit(int[]arr) {
@@ -25,6 +25,8 @@ class Solution {
 */
 
 // Memoization
+// O(m*n)
+// SC = O(m*n) + O(n)
 /*
 class Solution {
     public int maxProfit(int[]arr) {
@@ -55,6 +57,9 @@ class Solution {
 */
 
 // Tabulation
+// O(m*n)
+// SC = O(m*n)
+/*
 class Solution {
     public int maxProfit(int[]arr) {
         int[][][]dp = new int[arr.length + 1][3][3];
@@ -77,5 +82,34 @@ class Solution {
             }
         }
         return dp[0][0][0];
+    }
+}
+*/
+
+// Spatial Optimization
+class Solution {
+    public int maxProfit(int[]arr) {
+        int[][]prev = new int[3][3];
+        
+        for(int i = arr.length-1; i>=0; i--){
+            int[][]curr = new int[3][3];
+            for(int idx = 1; idx >= 0; idx--){
+                for(int deals = 1; deals >= 0; deals--){
+                    if(idx == 0){
+                        int buy = -arr[i] + prev[1][deals];
+                        int ignore = prev[0][deals];
+                        curr[idx][deals] = Math.max(buy, ignore);
+                    }
+
+                    else{
+                        int sell = arr[i] + prev[0][deals+1];
+                        int ignore = prev[1][deals];
+                        curr[idx][deals] = Math.max(sell, ignore);
+                    }
+                }
+            }
+            prev = curr;
+        }
+        return prev[0][0];
     }
 }
