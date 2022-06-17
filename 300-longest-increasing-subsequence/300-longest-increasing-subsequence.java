@@ -1,18 +1,19 @@
 class Solution {
     public int lengthOfLIS(int[] nums) {
-        if(nums.length == 1) return 1;
         int[][]dp = new int[nums.length][nums.length];
         for(int[]arr:dp) Arrays.fill(arr, -1);
-        return getLIS(nums, 0, -1, dp);
+        return getLIS(nums, -1, dp, 0);
     }
-    public int getLIS(int[]arr, int i, int lo, int[][]dp){
+    public int getLIS(int[]arr, int prev, int[][]dp, int i){
         if(i == arr.length) return 0;
+        if(prev != -1 && dp[prev][i] != -1) return dp[prev][i];
         
-        if(lo != -1 && dp[i][lo] != -1) return dp[i][lo];
+        int max = Integer.MIN_VALUE, inc = Integer.MIN_VALUE;
         
-        int val = getLIS(arr, i+1, lo, dp);
-        if(lo == -1) return Math.max(1 + getLIS(arr, i+1, i, dp), val);
-        if(arr[i] > arr[lo]) return dp[i][lo] = Math.max(1 + getLIS(arr, i+1, i, dp), val);
-        else return dp[i][lo] = val;
+        if(prev == -1 || arr[i] > arr[prev]) inc = 1 + getLIS(arr, i, dp, i+1);
+        int ign = getLIS(arr, prev, dp, i+1);
+        
+        if(prev != -1) return dp[prev][i] = Math.max(inc, ign);
+        return Math.max(inc, ign);
     }
 }
