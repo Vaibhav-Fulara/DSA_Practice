@@ -22,6 +22,7 @@ class Solution {
 */
 
 // Tabulation
+/*
 class Solution {
     public int lengthOfLIS(int[] arr) {
         int[][]dp = new int[arr.length + 1][arr.length + 1];
@@ -37,5 +38,27 @@ class Solution {
             }
         }
         return dp[0][0];
+    }
+}
+*/
+
+// Spatial optimization
+class Solution {
+    public int lengthOfLIS(int[] arr) {
+        int[]pre = new int[arr.length + 1];
+        
+        for(int i = arr.length-1; i >= 0; i--){
+            int[]curr = new int[arr.length + 1];
+            for(int prev = i-1; prev >= -1; prev--){
+                int inc = Integer.MIN_VALUE;
+        
+                if(prev == -1 || arr[i] > arr[prev]) inc = 1 + pre[i+1];
+                int ign = pre[prev+1];
+
+                curr[prev+1] = Math.max(inc, ign);
+            }
+            pre = curr;
+        }
+        return pre[0];
     }
 }
