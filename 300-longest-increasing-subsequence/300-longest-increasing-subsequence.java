@@ -1,3 +1,5 @@
+// Memoization
+/*
 class Solution {
     public int lengthOfLIS(int[] nums) {
         int[][]dp = new int[nums.length][nums.length];
@@ -15,5 +17,25 @@ class Solution {
         
         if(prev != -1) return dp[prev][i] = Math.max(inc, ign);
         return Math.max(inc, ign);
+    }
+}
+*/
+
+// Tabulation
+class Solution {
+    public int lengthOfLIS(int[] arr) {
+        int[][]dp = new int[arr.length + 1][arr.length + 1];
+        
+        for(int i = arr.length-1; i >= 0; i--){
+            for(int prev = i-1; prev >= -1; prev--){
+                int inc = Integer.MIN_VALUE;
+        
+                if(prev == -1 || arr[i] > arr[prev]) inc = 1 + dp[i+1][i+1];
+                int ign = dp[i+1][prev+1];
+
+                dp[i][prev+1] = Math.max(inc, ign);
+            }
+        }
+        return dp[0][0];
     }
 }
