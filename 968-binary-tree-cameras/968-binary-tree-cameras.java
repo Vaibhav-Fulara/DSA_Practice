@@ -16,16 +16,26 @@
 class Solution {
     int count = 0;
     public int minCameraCover(TreeNode root) {
-        String str = getCount(root);
-        if(str.equals("NM")) count++;
+        String s = getMinCameras(root);
+        if(s.equals("NM")) return count + 1;
         return count;
     }
-    public String getCount(TreeNode root){
+    public String getMinCameras(TreeNode root){
         if(root == null) return "M";
-        String left = getCount(root.left);
-        String right = getCount(root.right);
-        if(left.equals("NM") || right.equals("NM")) {count++;  return "C";}
-        if(left.equals("C") || right.equals("C")) return "M";
-        return "NM";
+        String left = getMinCameras(root.left);
+        String right = getMinCameras(root.right);
+        if(left.equals("C") && right.equals("C")) return "M";
+        else if(left.equals("C") || right.equals("C")){
+            if(left.equals("NM") || right.equals("NM")){
+                count ++;
+                return "C";
+            }
+            else return "M";
+        }
+        if(left.equals("M") && right.equals("M")) return "NM";
+        else{
+            count ++;
+            return "C";
+        }
     }
 }
