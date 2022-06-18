@@ -28,7 +28,7 @@ class Solution {
         int[][]dp = new int[arr.length + 1][arr.length + 1];
         
         for(int i = arr.length-1; i >= 0; i--){
-            for(int prev = i-1; prev >= -1; prev--){
+            for(int prev = i-1; prev >= -1; prev--){    // as prev can start from i-1 as it is previous of current element
                 int inc = Integer.MIN_VALUE;
         
                 if(prev == -1 || arr[i] > arr[prev]) inc = 1 + dp[i+1][i+1];
@@ -43,11 +43,12 @@ class Solution {
 */
 
 // Spatial optimization
+/*
 class Solution {
     public int lengthOfLIS(int[] arr) {
         int[]pre = new int[arr.length + 1];
         
-        for(int i = arr.length-1; i >= 0; i--){
+        for(int i = arr.length-1; i >= 0; i--){     // as prev can start from i-1 as it is previous of current element
             int[]curr = new int[arr.length + 1];
             for(int prev = i-1; prev >= -1; prev--){
                 int inc = Integer.MIN_VALUE;
@@ -60,5 +61,23 @@ class Solution {
             pre = curr;
         }
         return pre[0];
+    }
+}
+*/
+
+// Another Approach
+class Solution {
+    public int lengthOfLIS(int[] arr) {
+        int amax = 1;
+        int[]dp = new int[arr.length];
+        for(int i=0; i<arr.length; i++){
+            int max = 0;
+            for(int j=0; j<i; j++){
+                if(arr[j] < arr[i]) max = Math.max(max, dp[j]);
+            }
+            dp[i] = max+1;
+            amax = Math.max(amax, dp[i]);
+        }    
+        return amax;
     }
 }
