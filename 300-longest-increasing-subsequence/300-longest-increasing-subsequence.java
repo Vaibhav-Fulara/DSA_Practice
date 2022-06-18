@@ -1,3 +1,30 @@
+// Brute Force
+// TC = O(2^n)
+// SC = O(n) recurrence stack space
+/* Generate all subsequences and check for longest increasing subsequence at each instance.
+*/
+
+// Recursion
+// TC = O(2^n)
+// SC = O(n) recurrence stack space
+/*
+class Solution {
+    public int lengthOfLIS(int[] nums) {
+        return getLIS(nums, -1, 0);
+    }
+    public int getLIS(int[]arr, int prev, int i){
+        if(i == arr.length) return 0;
+        
+        int max = Integer.MIN_VALUE, inc = Integer.MIN_VALUE;
+        
+        if(prev == -1 || arr[i] > arr[prev]) inc = 1 + getLIS(arr, i, i+1);
+        int ign = getLIS(arr, prev, i+1);
+        
+        return Math.max(inc, ign);
+    }
+}
+*/
+
 // Memoization
 // TC = O(n^2)
 // SC = O(n^2) + O(n)
@@ -154,19 +181,33 @@ class Solution {
 */
 
 // Best Approach (Using Binary Search)
+// TC = O(n logn)
+// SC = O(n)
+
+// Intuition
+/* 
+    In the older approach, we used to traverse the entire previous array in order to check wether 
+    the current element can be paired with any previous elements. But, we can instead use a single traversal,
+    allocating values to the binary searched locations(if location == al.size(), we simply insert the element
+    into the al). Lastly, we can return the size of the arraylist.
+*/
+
 class Solution {
     public int lengthOfLIS(int[] arr) {
         List<Integer>al = new ArrayList<>();
-        for(int i=0; i<arr.length; i++){
-            int j = binSearch(al, arr[i]);
-            if(j == al.size()) al.add(arr[i]);
-            else al.set(j, arr[i]);
+        al.add(arr[0]);
+        for(int i=1; i<arr.length; i++){
+            if(arr[i] > al.get(al.size()-1)) al.add(arr[i]);
+            else{
+                int j = binSearch(al, arr[i]);
+                al.set(j, arr[i]);
+            }
         }
         return al.size();
     }
     public int binSearch(List<Integer>al, int val){
         int lo = 0;
-        int hi = al.size();
+        int hi = al.size()-1;
         while(hi > lo){
             int mid = lo + (hi-lo)/2;
             if(al.get(mid) < val) lo = mid+1;
