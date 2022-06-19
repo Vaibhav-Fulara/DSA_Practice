@@ -3,21 +3,13 @@ class Solution {
         Node[]links = new Node[26];
         boolean flag = false;
         List<String>suggestions = new ArrayList<>();
-        boolean containsKey(char ch){
-            return links[ch-'a']!=null;
-        }
-        Node get(char ch){
-            return links[ch-'a'];
-        }
-        void put(char ch, Node node){
-            links[ch-'a'] = node;
-        }
+        boolean containsKey(char ch){return links[ch-'a']!=null;}
+        Node get(char ch){return links[ch-'a'];}
+        void put(char ch, Node node){links[ch-'a'] = node;}
     }
     public class Trie{
         Node root;
-        public Trie(){
-            root = new Node();
-        } 
+        public Trie(){root = new Node();} 
         
         public void insert(String str){
             Node node = root;
