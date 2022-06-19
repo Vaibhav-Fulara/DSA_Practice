@@ -16,7 +16,7 @@
 class Solution {
     public int maxLevelSum(TreeNode root) {
         int minIdx = 0, idx = 1;
-        long maxSum = (long)-1e5-1, curr = 0;
+        long maxSum = Long.MIN_VALUE, curr = 0;
         Queue<TreeNode>qu = new LinkedList<>();
         qu.add(root);
         qu.add(null);
@@ -37,7 +37,6 @@ class Solution {
                 if(node.right != null) qu.add(node.right);
             }
         }
-        // System.out.println(curr + " " + idx + " " + maxSum);
         if(curr > maxSum) return idx;
         return minIdx;
     }
