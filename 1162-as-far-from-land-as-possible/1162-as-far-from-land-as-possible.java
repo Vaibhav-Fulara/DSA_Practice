@@ -21,7 +21,6 @@ class Solution {
             int len = qu.size();
             for(int k=0; k<len; k++){
                 pair p = qu.remove();
-                vis[p.x][p.y] = true;
                 // System.out.println(p.x+" "+p.y);
                 for(int[]dir:dirs){
                     int x = p.x + dir[0];
