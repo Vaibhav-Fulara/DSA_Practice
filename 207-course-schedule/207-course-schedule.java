@@ -1,18 +1,39 @@
 class Solution {
-    public boolean canFinish(int n, int[][] prerequisites) {
-        ArrayList<Integer>[] G = new ArrayList[n];
-        int[] degree = new int[n];
-        ArrayList<Integer> bfs = new ArrayList();
-        for (int i = 0; i < n; ++i) G[i] = new ArrayList<Integer>();
-        for (int[] e : prerequisites) {
-            G[e[1]].add(e[0]);
-            degree[e[0]]++;
-        }
-        for (int i = 0; i < n; ++i) if (degree[i] == 0) bfs.add(i);
-        for (int i = 0; i < bfs.size(); ++i)
-            for (int j: G[bfs.get(i)])
-                if (--degree[j] == 0) bfs.add(j);
+    public boolean canFinish(int num, int[][] pre) {
+        if(pre.length == 0) return true;
+        int[]inDegree = new int[num];
         
-        return bfs.size() == n;
+        List<List<Integer>>adj = new ArrayList<>();
+        for(int i=0; i<num; i++) adj.add(new ArrayList<>());
+        for(int[]arr:pre){
+            adj.get(arr[0]).add(arr[1]);
+        }
+        
+        for(int i=0; i<adj.size(); i++){
+            List<Integer>al = adj.get(i);
+            
+            for(int val:al){
+                inDegree[val]++;
+            }
+        }
+        
+        ArrayDeque<Integer>qu = new ArrayDeque<>();
+        for(int v = 0; v<inDegree.length; v++){
+            if(inDegree[v] == 0) {
+                qu.add(v);
+            }
+        }
+        
+        int idx = 0;
+        while(qu.size() > 0){
+            idx++;
+            int v = qu.remove();
+            for(int n:adj.get(v)){
+                inDegree[n]--;
+                if(inDegree[n] == 0) qu.add(n);
+            }
+        }
+        
+        return idx==num;
     }
 }
