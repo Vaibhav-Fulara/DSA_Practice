@@ -53,41 +53,34 @@ class Main {
 }
 // } Driver Code Ends
 
-
-/*Complete the function below*/
 class Solution{
-    //Function to return list containing vertices in Topological order. 
     static int[] topoSort(int V, ArrayList<ArrayList<Integer>> adj) {
-        // add your code here
-        int[] tsort = new int[V];
+        int[]inDegree = new int[V];
+        int[]topo = new int[V];
         
-        int[] inDegree = new int[V];
-        for(int v = 0; v < V; v++){
-            for(int n: adj.get(v)){
-                inDegree[n]++;
+        for(int i=0; i<adj.size(); i++){
+            List<Integer>al = adj.get(i);
+            for(int val:al){
+                inDegree[val]++;
             }
         }
         
-        ArrayDeque<Integer> queue = new ArrayDeque<>();
-        for(int v = 0; v < V; v++){
-            if(inDegree[v] == 0){
-                queue.add(v);
-            }
+        StringBuilder sb = new StringBuilder();
+        ArrayDeque<Integer>qu = new ArrayDeque<>();
+        for(int v = 0; v<inDegree.length; v++){
+            if(inDegree[v] == 0) qu.add(v);
         }
         
         int idx = 0;
-        while(queue.size() > 0){
-            int v = queue.remove();
-            tsort[idx++] = v;
-            
-            for(int n: adj.get(v)){
+        while(qu.size() > 0){
+            int v = qu.remove();
+            topo[idx++] = v;
+            for(int n:adj.get(v)){
                 inDegree[n]--;
-                if(inDegree[n] == 0){
-                    queue.add(n);
-                }
+                if(inDegree[n] == 0) qu.add(n);
             }
         }
         
-        return tsort;
+        return topo;
     }
 }
