@@ -2,13 +2,22 @@ class Solution {
     int[]parent;
     int[]rank;
     
-    /*  0
-      3   1
-        2
+    /*  
+    
+    In this question, we devide each cell into four triangles such that each contains a unique value.
+    We use DSU on connected (not / or \ seperated) nodes and convert them into a single set.
+    Further, we also connect neighbouring nodes' neighbouring components (see line 41).    
+       ________
+      |  \ 0 / |
+      |   \ /  |
+      | 3  X 1 |
+      |   / \  |
+      |  / 2 \ |
+      |________|
     */
     public int regionsBySlashes(String[] grid) {
         
-        parent = new int [4 * grid.length * grid.length];
+        parent = new int [4 * grid.length * grid.length];       // for storing the parent idx
         rank = new int [4 * grid.length * grid.length];
         
         for(int i=0; i < parent.length; i++){
