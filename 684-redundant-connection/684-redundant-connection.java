@@ -5,9 +5,6 @@ class Solution {
         
         for(int i=0; i<parent.length; i++) parent[i] = i;
         
-        List<Integer>[]graph = new ArrayList[edges.length];
-        for(int i=0; i<edges.length; i++) graph[i] = new ArrayList<>();
-        
         for(int[]edge:edges){
             int s1 = find(edge[0], parent);
             int s2 = find(edge[1], parent);
