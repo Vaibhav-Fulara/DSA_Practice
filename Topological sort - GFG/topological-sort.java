@@ -56,7 +56,8 @@ class Main {
 
 /*Complete the function below*/
 
-
+// Kahn's Algorithm
+/*
 class Solution{
     static int[] topoSort(int V, ArrayList<ArrayList<Integer>> adj){
         int[]inDegree = new int[V];
@@ -78,5 +79,36 @@ class Solution{
         }
         
         return ans;
+    }
+}
+*/
+
+// Normal Topo Sort
+class Solution{
+    static int[] topoSort(int V, ArrayList<ArrayList<Integer>> adj){
+        Stack<Integer>st = new Stack<>();
+        boolean[]vis = new boolean[V];
+        
+        for(int i=0; i<V; i++){
+            if(vis[i] == false){
+                vis[i] = true;
+                traverse(adj, i, st, vis);
+            }
+        }
+        
+        int[]ans = new int[V];
+        int i = 0;
+        while(!st.isEmpty()){
+            ans[i++] = st.pop();
+        }
+        return ans;
+    }
+    
+    static void traverse(ArrayList<ArrayList<Integer>>adj, int i, Stack<Integer>st, boolean[]vis){
+        for(int v:adj.get(i)) if(!vis[v]){
+            vis[v] = true;
+            traverse(adj, v, st, vis);
+        }
+        st.add(i);
     }
 }
