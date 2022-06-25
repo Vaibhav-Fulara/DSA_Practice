@@ -53,34 +53,30 @@ class Main {
 }
 // } Driver Code Ends
 
+
+/*Complete the function below*/
+
+
 class Solution{
-    static int[] topoSort(int V, ArrayList<ArrayList<Integer>> adj) {
+    static int[] topoSort(int V, ArrayList<ArrayList<Integer>> adj){
         int[]inDegree = new int[V];
-        int[]topo = new int[V];
+        int[]ans = new int[V];
         
-        for(int i=0; i<adj.size(); i++){
-            List<Integer>al = adj.get(i);
-            for(int val:al){
-                inDegree[val]++;
-            }
-        }
+        for(List<Integer>al:adj) for(int val:al) inDegree[val]++;
         
-        StringBuilder sb = new StringBuilder();
-        ArrayDeque<Integer>qu = new ArrayDeque<>();
-        for(int v = 0; v<inDegree.length; v++){
-            if(inDegree[v] == 0) qu.add(v);
-        }
+        Queue<Integer>qu = new ArrayDeque<>();
+        for(int i=0; i<V; i++) if(inDegree[i] == 0) qu.add(i);
         
         int idx = 0;
-        while(qu.size() > 0){
-            int v = qu.remove();
-            topo[idx++] = v;
-            for(int n:adj.get(v)){
+        while(qu.size() != 0){
+            int val = qu.poll();
+            ans[idx++] = val;
+            for(int n:adj.get(val)){
                 inDegree[n]--;
                 if(inDegree[n] == 0) qu.add(n);
             }
         }
         
-        return topo;
+        return ans;
     }
 }
