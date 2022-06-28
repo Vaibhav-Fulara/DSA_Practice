@@ -30,20 +30,20 @@ class GFG
 class Solution{
     static int matrixMultiplication(int N, int arr[]){
         int[][]dp = new int [N][N];
-        for(int[]ar:dp) Arrays.fill(ar,-1);
         
-        return solve(1, N-1, arr, dp);
-    }
-    static int solve(int i, int j, int[]arr, int[][]dp){
-        if(i == j) return 0;
-        
-        if(dp[i][j] != -1) return dp[i][j];
-        
-        int min = Integer.MAX_VALUE;
-        for(int k = i; k<j; k++){
-            min = Math.min(min, arr[i-1] * arr[k] * arr[j] 
-            + solve(i, k, arr, dp) + solve(k+1, j, arr, dp));
+        for(int i=N-1; i>0; i--){
+            for(int j = 1; j<N; j++){
+                if(i == j) {dp[i][j] = 0; continue;}
+                
+                int min = Integer.MAX_VALUE;
+                for(int k = i; k<j; k++){
+                    min = Math.min(min, arr[i-1] * arr[k] * arr[j] 
+                    + dp[i][k] + dp[k+1][j]);
+                }
+                dp[i][j] = min;
+            }
         }
-        return dp[i][j] = min;
+        
+        return dp[1][N-1];
     }
 }
