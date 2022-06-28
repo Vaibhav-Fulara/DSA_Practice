@@ -32,7 +32,7 @@ class Solution{
         int[][]dp = new int [N][N];
         
         for(int i=N-1; i>0; i--){
-            for(int j = 1; j<N; j++){
+            for(int j = i+1; j<N; j++){
                 if(i == j) {dp[i][j] = 0; continue;}
                 
                 int min = Integer.MAX_VALUE;
