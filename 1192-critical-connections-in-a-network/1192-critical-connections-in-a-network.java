@@ -1,42 +1,67 @@
 class Solution {
-    int[]disc, low;
-    List<List<Integer>>ans;
-    List<Integer>[]graph;
-    int time = 1;
-    
     public List<List<Integer>> criticalConnections(int n, List<List<Integer>> connections) {
         
-        // Prerequisites of Tarjan's algo
-        disc = new int[n];
-        low = new int[n];
+        List<List<Integer>>adj = new ArrayList<>();
+        for(int t=0; t<n; t++) adj.add(new ArrayList<>());
         
-        // Answer List
-        ans = new ArrayList<>();
-        
-        // Graph Construction
-        graph = new ArrayList[n];
-        for(int i=0; i<n; i++) graph[i] = new ArrayList<>();
-        for(List<Integer>list:connections) {
-            graph[list.get(0)].add(list.get(1));
-            graph[list.get(1)].add(list.get(0));
+        for(int i=0; i<connections.size(); i++){
+            List<Integer>ls = connections.get(i);
+            int u = ls.get(0), v = ls.get(1);
+            adj.get(u).add(v);
+            adj.get(v).add(u);
         }
         
-        dfs(0,-1);
+        // for(List<Integer>ls:adj) System.out.println(ls);
+        
+        List<List<Integer>>ans = new ArrayList<>();
+        Set<pair>hs = new HashSet<>();
+        boolean[]vis = new boolean[n];
+        int[]discovery = new int[n];
+        int[]lowest = new int[n];
+        
+        for(int i=0; i<n; i++){
+            if(vis[i] == false){
+                vis[i] = true;
+                dfs (adj, vis, discovery, lowest, i, -1, hs);
+            }
+        }
+        
+        for(pair p:hs){
+            List<Integer>ls = new ArrayList<>();
+            ls.add(p.x);
+            ls.add(p.y);
+            ans.add(new ArrayList<>(ls));
+        }
+        
         return ans;
     }
     
-    public void dfs(int curr, int prev){
-        disc[curr] = low[curr] = time++;
-        for (int nbr : graph[curr]){
-            if(disc[nbr] == 0){
-                dfs(nbr, curr);
-                low[curr] = Math.min(low[nbr], low[curr]);
+    int time = 0;
+    public void dfs(List<List<Integer>>adj, boolean[]vis, int[]discovery, int[]lowest, int u, int par, Set<pair>hs){
+        time++;
+        discovery[u] = time;
+        lowest[u] = time;
+        for(int v:adj.get(u)){
+            if(v == par) continue;
+            else if(vis[v]){
+                lowest[u] = Math.min(lowest[u], discovery[v]);
+            } else {
+                vis[v] = true;
+                dfs(adj, vis, discovery, lowest, v, u, hs);
+                lowest[u] = Math.min(lowest[u], lowest[v]);
+                if(lowest[v] > discovery[u]){
+                    hs.add(new pair(u,v));
+                }
             }
-            else if(nbr != prev) low[curr] = Math.min(low[curr], disc[nbr]);
-            if (low[nbr] > disc[curr]) ans.add(Arrays.asList(curr, nbr));
+        }
+    }
+    
+    public class pair{
+        int x;
+        int y;
+        pair(int x, int y){
+            this.x = x;
+            this.y = y;
         }
     }
 }
-
-
-// Tarjan's Algorithm
