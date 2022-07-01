@@ -29,11 +29,12 @@ class Solution {
 }
 */
 
-// Dijkstra-type BFS
+// Dijkstra-type BFS O(m*n) AC
 class Solution {
     int[][]dirs = {{-1,0}, {0,-1}, {1,0}, {0,1}};
     public int swimInWater(int[][] arr) {
         boolean[][]vis = new boolean[arr.length][arr[0].length];
+        vis[0][0] = true;
         
         PriorityQueue<pair>pq = new PriorityQueue<>((a,b) -> a.cost - b.cost);
         pq.add(new pair(0,0,arr[0][0]));
@@ -44,9 +45,6 @@ class Solution {
             pair p = pq.remove();
             
             int i = p.x, j = p.y;
-            if(vis[i][j]) continue;
-            
-            vis[i][j] = true;
             arr[i][j] = p.cost;
             
             if(i == arr.length-1 && j == arr[0].length-1) return arr[i][j];
@@ -54,6 +52,7 @@ class Solution {
             for(int[]dir:dirs){
                 int x = i+dir[0], y = j+dir[1];
                 if(x >= 0 && y >= 0 && x<arr.length && y<arr[0].length && vis[x][y] == false){
+                    vis[x][y] = true;
                     pq.add(new pair(x, y, Math.max(p.cost, arr[x][y])));
                 }
             }
