@@ -33,25 +33,28 @@ class GFG
 
 
 class Solution{
-    int count = 0;
     public int findMotherVertex(int V, ArrayList<ArrayList<Integer>>adj){
         boolean[]vis = new boolean[V];
+        int mother = -1;
         for(int i=0; i<V; i++){
             if(vis[i] == false){
-                count = 1;
                 vis[i] = true;
+                mother = i;
                 dfs(vis, adj, i);
-                if(count == V) return i;
             }
         }
-        return -1;
+        vis = new boolean[V];
+        dfs(vis, adj, mother);
+        vis[mother] = true;
+        for(boolean bool:vis) if(!bool) return -1;
+        
+        return mother;
     }
     public void dfs(boolean[]vis, ArrayList<ArrayList<Integer>>adj, int i){
         for(int val:adj.get(i)){
             if(vis[val] == false) {
-                dfs(vis, adj, val);
                 vis[val] = true;
-                count++;
+                dfs(vis, adj, val);
             }
         }
     }
