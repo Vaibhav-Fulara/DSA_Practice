@@ -42,34 +42,38 @@ class GfG {
 
 
 class Solution{
-    int[] JobScheduling(Job[] arr, int n) {
-        int tmax = arr[0].deadline;
-        
-        Arrays.sort(arr, (a,b) -> {
-            return b.profit - a.profit;
+    public int[] JobScheduling(Job arr[], int n) {
+        Arrays.sort(arr, (a,b)->{
+           return b.profit - a.profit; 
         });
         
-        Set<Integer>hs = new HashSet<>();
+        parent = new int[101];                  // as max days can be 100
+        for(int i=0; i<101; i++) parent[i] = i;
         
-        int count = 0, profit = 0;
-        for(int i=0; i<arr.length; i++){
+        int profit = 0, jobs = 0;
+        
+        for(int i=0; i<n; i++){
             Job job = arr[i];
-            if(!hs.contains(job.deadline)){
-                hs.add(job.deadline);
-                count ++;
+            int par = find(job.deadline);
+            if(par == 0) continue;
+            else{
+                parent[par] = find(par-1);
+                jobs++;
                 profit += job.profit;
             }
-            else{
-                int t = job.deadline;
-                while(t > 0 && hs.contains(t)) t--;
-                if(t != 0){
-                    hs.add(t);
-                    count ++;
-                    profit += job.profit;
-                }
-            }
         }
-        return new int[] {count, profit};
+        return new int[]{jobs, profit};
+    }
+    
+    int[]parent;
+    
+    public int find(int x){
+        if(parent[x] == x) return x;
+        return parent[x] = find(parent[x]);
+    }
+    
+    public void union(int s1, int s2){
+        if(s1 > s2) parent[s2] = s1;
     }
 }
 
