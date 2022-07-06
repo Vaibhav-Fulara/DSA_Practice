@@ -109,6 +109,7 @@ class GfG {
 
 
 //User function Template for Java
+
 /* Node is defined as
 class Node{
     int data;
@@ -120,31 +121,24 @@ class Node{
         right=null;
     }
 }*/
-
 class Tree{
-    int hi = 0;
-    
     public ArrayList<Integer> diagonal(Node root){
-        ArrayList<Integer>al = new ArrayList<>();
-        if(root == null) return al;
-        
-        HashMap<Integer, ArrayList<Integer>>hm = new HashMap<>();
-        populate(root, 0, hm);
-        
-        for(int i = 0; i<=hi; i++) for(int val:hm.get(i)) al.add(val);
-        return al;
-      }
-      
-    public void populate(Node root, int idx, HashMap<Integer, ArrayList<Integer>>hm){
-        if(root == null) return;
-        if(idx > hi) hi = idx;
-        if(hm.containsKey(idx)) hm.get(idx).add(root.data);
-        else{
-            ArrayList<Integer>temp = new ArrayList<>();
-            temp.add(root.data);
-            hm.put(idx, new ArrayList<>(temp));
+        Map<Integer, ArrayList<Integer>>hm = new HashMap<>();
+        traverse(hm, 0, root);
+        ArrayList<Integer>ans = new ArrayList<>();
+        int k = 0;
+        while(true){
+            if(!hm.containsKey(k)) break;
+            List<Integer>al = hm.get(k--);
+            ans.addAll(al);
         }
-        populate(root.left, idx+1, hm);
-        populate(root.right, idx, hm);
+        return ans;
+    }
+    public void traverse(Map<Integer, ArrayList<Integer>>hm, int i, Node root){
+        if(root == null) return;
+        if(!hm.containsKey(i)) hm.put(i, new ArrayList<>());
+        hm.get(i).add(root.data);
+        traverse(hm, i-1, root.left);
+        traverse(hm, i, root.right);
     }
 }
