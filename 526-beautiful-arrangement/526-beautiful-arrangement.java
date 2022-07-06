@@ -1,17 +1,16 @@
 class Solution {
     public int countArrangement(int n) {
-        Set<Integer>hs = new HashSet<>();
-        for(int i=1; i<=n; i++) hs.add(i);
-        return solve(hs, n, 1);
+        boolean[]vis = new boolean[n+1];
+        return solve(vis, n, 1);
     }
-    public int solve(Set<Integer>hs, int n, int idx){
-        if(hs.isEmpty()) return 1;
+    public int solve(boolean[]vis, int n, int idx){
+        if(idx == n+1) return 1;
         int ans = 0;
         for(int i = 1; i<=n; i++){
-            if(hs.contains(i) && (i % idx == 0 || idx % i == 0)){
-                hs.remove(i);
-                ans += solve(hs, n, idx+1);
-                hs.add(i);
+            if(!vis[i] && (i % idx == 0 || idx % i == 0)){
+                vis[i] = true;
+                ans += solve(vis, n, idx+1);
+                vis[i] = false;
             }
         }
         return ans;
