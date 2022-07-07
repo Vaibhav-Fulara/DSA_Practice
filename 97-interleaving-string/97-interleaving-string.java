@@ -1,5 +1,6 @@
 class Solution {
     public boolean isInterleave(String s1, String s2, String s3) {
+        if(s1.length() + s2.length() != s3.length()) return false;
         int[][][]dp = new int[s1.length()+1][s2.length()+1][s3.length()+1];
         return getString(s1, s2, s3, 0, 0, 0, dp);
     }
@@ -7,12 +8,9 @@ class Solution {
         
         if(dp[i][j][k] != 0) return dp[i][j][k] == -1? false:true;
         
-        if(i == s1.length() && j == s2.length() && k == s3.length()) {
+        if(i == s1.length() && j == s2.length()) {
             dp[i][j][k] = 1;
             return true;
-        } else if((i == s1.length() && j == s2.length()) || k == s3.length()){
-            dp[i][j][k] = -1;
-            return false;
         }else if(i == s1.length()){
             if(s2.charAt(j) == s3.charAt(k) && getString(s1,s2,s3,i,j+1,k+1, dp)) {
                 dp[i][j][k] = 1;
