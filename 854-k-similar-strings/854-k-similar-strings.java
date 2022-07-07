@@ -8,47 +8,36 @@ class Solution {
         vis.add(s1);
         while(queue.size() > 0){
             int sz = queue.size();
-            for(int i = 0; i < sz; i++){
-                String rem = queue.removeFirst();
+            for(int q = 0; q < sz; q++){
+                String s = queue.removeFirst();
                 
-                if(rem.equals(s2)) return level;
+                if(s.equals(s2)) return level;
                 
-                for(String str: getNeighbors(rem, s2)){
-                    if(!vis.contains(str)){
-                        queue.addLast(str);
-                        vis.add(str);
+                
+                int idx = -1;
+                for(int i = 0; i < s.length(); i++){
+                    if(s.charAt(i) != s2.charAt(i)){
+                        idx = i;
+                        break;
+                    }
+                }
+
+                if(idx != -1){
+                    for(int j = idx + 1; j < s.length(); j++){
+                        if(s.charAt(j) == s2.charAt(idx)){
+                            String str = swap(s, idx, j);
+                            if(!vis.contains(str)){
+                                queue.addLast(str);
+                                vis.add(str);
+                            }
+                        }
                     }
                 }
             }
             
             level++;
         }
-        
-        
         return -1;
-    }
-    
-    public List<String> getNeighbors(String s1, String s2){
-        ArrayList<String> res = new ArrayList<>();
-        
-        int idx = -1;
-        for(int i = 0; i < s1.length(); i++){
-            if(s1.charAt(i) != s2.charAt(i)){
-                idx = i;
-                break;
-            }
-        }
-        
-        if(idx != -1){
-            for(int j = idx + 1; j < s1.length(); j++){
-                if(s1.charAt(j) == s2.charAt(idx)){
-                    String s1dash = swap(s1, idx, j);
-                    res.add(s1dash);
-                }
-            }
-        }
-        
-        return res;
     }
     
     public String swap(String s, int i, int j){
