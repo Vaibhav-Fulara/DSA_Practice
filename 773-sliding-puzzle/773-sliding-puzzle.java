@@ -1,28 +1,31 @@
 class Solution {
     public int slidingPuzzle(int[][]arr) {
-        Queue<pair>qu = new ArrayDeque<>();
+        Queue<String>qu = new ArrayDeque<>();
         
         Set<String>vis = new HashSet<>();
         int[][]dirs = {{1,3}, {0,2,4}, {1,5}, {0,4}, {1,3,5}, {2,4}};
         
         String s = getBoardConfig(arr);
-        qu.add(new pair(s,0));
+        qu.add(s);
         vis.add(s);
         
+        int count = -1;
         while(qu.size()!=0){
-            pair p = qu.poll();
-            
-            if(p.config.equals("123450")) return p.level;
-            
-            int zeroidx = p.config.indexOf('0');
-            for(int i:dirs[zeroidx]){
-                String nconfig = swap(p.config, zeroidx, i);
-                if(!vis.contains(nconfig)){
-                    pair np = new pair();
-                    np.config = nconfig;
-                    np.level = p.level + 1;
-                    vis.add(nconfig);
-                    qu.add(np);
+            int len = qu.size();
+            count ++;
+            for(int q= 0; q<len; q++){
+                String p = qu.poll();
+
+                if(p.equals("123450")) return count;
+
+                int zeroidx = p.indexOf('0');
+                for(int i:dirs[zeroidx]){
+                    String nconfig = swap(p, zeroidx, i);
+                    if(!vis.contains(nconfig)){
+                        String np = nconfig;
+                        vis.add(nconfig);
+                        qu.add(np);
+                    }
                 }
             }
         }
@@ -37,16 +40,6 @@ class Solution {
         sb.setCharAt(i,ch2);
         sb.setCharAt(j,ch1);
         return sb.toString();
-    }
-    
-    public class pair{
-        String config;
-        int level;
-        pair(){}
-        pair(String s, int y){
-            config = s;
-            level = y;
-        }
     }
     
     public String getBoardConfig(int[][]arr){
