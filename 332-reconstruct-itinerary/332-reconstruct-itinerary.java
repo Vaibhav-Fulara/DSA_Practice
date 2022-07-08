@@ -1,3 +1,6 @@
+// Eulerian path
+// O(E)
+// PriorityQueue has been used to maintain Lexicographical Order of the itenerary
 class Solution {
     public List<String> findItinerary(List<List<String>> tickets) {
         HashMap<String, PriorityQueue<String>>hm = new HashMap<>();
@@ -5,29 +8,26 @@ class Solution {
             if(!hm.containsKey(ls.get(0))) hm.put(ls.get(0), new PriorityQueue<>());
             hm.get(ls.get(0)).add(ls.get(1));
         }
-        Stack<String>st = new Stack<>();
+        List<String>al = new ArrayList<>();
         List<String>list = new ArrayList<>();
-        dfs(hm, "JFK", st);
-        while(!st.isEmpty()){
-            list.add(st.pop());
-        }
-        return list;
+        dfs(hm, "JFK", al);
+        return al;
     }
-    public void dfs(Map<String, PriorityQueue<String>>hm, String src, Stack<String>st){
+    public void dfs(Map<String, PriorityQueue<String>>hm, String src, List<String>list){
         PriorityQueue<String>pq = hm.get(src);
         if(pq == null ){
-            st.push(src);
+            list.add(0,src);
             return;
         }
         if(pq.size() == 0){
+            list.add(0,src);
             hm.remove(src);
-            st.push(src);
             return;
         }
         while(!pq.isEmpty()){
             String s = pq.remove();
-            dfs(hm, s, st);
+            dfs(hm, s, list);
         }
-        st.push(src);
+        list.add(0,src);
     }
 }
