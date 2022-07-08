@@ -19,6 +19,11 @@ class Solution {
             st.push(src);
             return;
         }
+        if(pq.size() == 0){
+            hm.remove(src);
+            st.push(src);
+            return;
+        }
         while(!pq.isEmpty()){
             String s = pq.remove();
             dfs(hm, s, st);
