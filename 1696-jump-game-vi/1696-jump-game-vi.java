@@ -1,4 +1,5 @@
-// DP O(n*k) TLE
+// DP 
+// O(n*k) TLE
 /*
 class Solution {
     public int maxResult(int[] arr, int k) {
@@ -20,6 +21,9 @@ class Solution {
 }
 */
 
+// Priority Queue
+// O(n*log(k))
+/*
 class Solution{
     public int maxResult(int[] nums, int k) {
         int n = nums.length, res = nums[0];
@@ -27,9 +31,26 @@ class Solution{
         pq.add(new int[] { nums[0], 0 });
         for(int i = 1; i < n; i++) {
             while(pq.peek()[1] < i - k) pq.poll();
-            res = pq.peek()[0] + nums[i];
+            res = pq.peek()[0] + nums[i];     // log(k) operation as opposed to earlier O(k) looping
             pq.add(new int[] { res, i });
         }
         return res;
+    }
+}
+*/
+
+// ArrayDeque 
+// O(n)
+class Solution{
+    public int maxResult(int[] nums, int k) {
+        Deque<Integer>deque = new ArrayDeque<>();
+        deque.add(0);
+        for(int i = 1; i < nums.length; i++) {
+            nums[i] += nums[deque.peek()];
+            if(i-k == deque.peek()) deque.poll();
+            while(!deque.isEmpty() && nums[deque.peekLast()] <= nums[i]) deque.pollLast();
+            deque.add(i);
+        }
+        return nums[nums.length - 1];
     }
 }
