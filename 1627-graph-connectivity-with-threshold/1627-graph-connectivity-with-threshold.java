@@ -1,3 +1,4 @@
+// O(n(log(log n)))
 class Solution {
     public List<Boolean> areConnected(int n, int threshold, int[][] queries) {
         parent = new int[n+1];
@@ -7,12 +8,14 @@ class Solution {
         
         for(int i=0; i<parent.length; i++) parent[i] = i;
         
-        for(int div = threshold+1; div <=n; div++){
+        // Sieve of eratosthenes O(n(log(log n)))
+        for(int div = threshold+1; div <= n/2; div++){
             for(int m = 2; div*m <=n; m++){
                 union(div, div*m);
             }
         }
         
+        // O(query * Ackermann)
         for(int[]query:queries){
             int n1 = query[0];
             int n2 = query[1];
