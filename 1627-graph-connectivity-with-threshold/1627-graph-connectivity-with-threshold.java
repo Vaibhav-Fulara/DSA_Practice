@@ -5,11 +5,6 @@ class Solution {
         
         List<Boolean>al = new ArrayList<>();
         
-        if(threshold == 0) {
-            for(int i=0; i<queries.length; i++) al.add(true);
-            return al;
-        }
-        
         for(int i=0; i<parent.length; i++) parent[i] = i;
         
         for(int div = threshold+1; div <=n; div++){
