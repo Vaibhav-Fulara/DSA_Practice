@@ -22,6 +22,7 @@ class Solution {
         int n = preorder.length;
         return getTree(preorder, 0, n-1, 0, n-1, hm);
     }
+    
     public TreeNode getTree(int[]preorder, int pre_lo, int pre_hi, int in_lo, int in_hi, HashMap<Integer, Integer>hm){
         if(pre_lo > pre_hi || in_lo > in_hi) return null;
         
