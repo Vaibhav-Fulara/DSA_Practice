@@ -1,75 +1,22 @@
 class Solution {
-    public int latestTimeCatchTheBus(int[] buses, int[] arr, int cap) {
+    public int latestTimeCatchTheBus(int[] buses, int[] passengers, int capacity) {
         Arrays.sort(buses);
-        Arrays.sort(arr);
-        
-        int i=0, j=0;
-        
-        while(i < buses.length-1 && j != arr.length){
-            int k = cap;
-            while (k > 0 && j!= arr.length){
-                if(arr[j] > buses[i]) break;
-                j++;
-                k--;
+        Arrays.sort(passengers);
+        Set<Integer> set = new HashSet<>();
+        int ans=0,j=0;
+        for(int i=0;i<buses.length;i++){
+            int c = 0;
+            while(j<passengers.length && c<capacity && passengers[j]<=buses[i]){
+                if(!set.contains(passengers[j]-1)){
+                    ans=passengers[j]-1;
+                }
+                set.add(passengers[j]);
+                j++; c++;
             }
-            i++;
-            // System.out.println(i);
-        }
-        
-        // i = buses.length-1
-        
-        int last = j;
-        int k = cap;
-        while (k > 0 && j!= arr.length){
-            if(arr[j] > buses[i]) {
-                // System.out.println(arr[last]);
-                if(j == 0) return buses[i];
-                if(arr[j-1] == buses[i]) break;
-                return buses[i];
+            if(c<capacity && !set.contains(buses[i])){
+                ans = buses[i];
             }
-            last = j;
-            j++;
-            k--;
         }
-        
-        if(last == arr.length) last--;
-        
-        if(k != 0){
-            // System.out.println(last + " " + i);
-            if(arr[last] != buses[i]){
-                return buses[i];
-            }
-        } 
-        
-        j = last;
-        while(j > 0 && arr[j-1] == arr[j]-1){
-            j--;
-        }
-        if(j == 0) return arr[0]-1;
-        return arr[j]-1;
+        return ans;
     }
 }
-
-/*
-[3]
-[2]
-2
-
-[6,8,18,17] bus
-[6,8,17]    passenger
-1
-
-[2]
-[2]
-2
-
-[2241,1239,4280,5025,4354,1749,6310,7993,8163,9369,342,6387,9147,8985,3055,1406,42,8060,1583,5844,5553,119,8043,7836,4159,5512,9230,1220,1893,9411,8319,862,6689,7209,1305,8958,6658,8909,9351,9070,9586,7175,9251,7514,2850,6390,6355,1551,8513,843,8170,4831,6342,8849,2879,8937,2755,5890,7293,1737,4324,2034,7425,9785,1354,6476,3059,6526,8193,9537,2749,8541,5187,8219,369,8467,8140,8175,7287,2598,415,2306,1781,1555,3388,622,7574,4537,4833,1023,4841,7482,6518,4941,9758,7583,1341,5981,6687,6450]
-[8218,5861,7144,1315,9370,846,7541,6688,6348,3526,1343,8043,6326,8697,1738,8306,7292,9506,8537,2827,15,3310,1848,1668,8487,9785,3059,7480,5403,8165,6474,2384,8913,1914,9555,6197,4912,502,646,5837,5940,1366,3012,5074,4254,5545,4841,6520,9138,2877,1252,2755,9039,9359,4832,7185,8889,2653,7576,1512,7863,9712,2102,1239,329,1750,4787,2280,5012,7486,6662,411,6368,8098,6481,1557,8161,8449,1553,9349,9232,4284,24560,72,7276,8045,906,8942,7405,7710,8176,8172,6388,1135,6638,4325,356,9216,8959,4507,6406]
-5
-
-correct = 9784
-
-[3]
-[4]
-1
-*/
