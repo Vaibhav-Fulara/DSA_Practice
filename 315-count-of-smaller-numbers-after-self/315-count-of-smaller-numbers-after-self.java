@@ -1,56 +1,42 @@
 class Solution {
-     public class Number {
-        int value;
-        int index;
-        int smaller;
-        public Number(int value,int index,int smaller){
-            this.value = value;
-            this.index = index;
-            this.smaller = smaller;
-        }
-    }
-    public List<Integer> countSmaller(int[]arr) {
-        
-        Number[]nums = new Number[arr.length];
-        for(int i=0; i<arr.length; i++) nums[i] = new Number(arr[i],i,0);
-        mergeSort(arr, 0, arr.length-1, nums);
-        
-        Arrays.sort(nums,(n1,n2)->(n1.index-n2.index));
-        
+    public List<Integer> countSmaller(int[] nums) {
         List<Integer>al = new ArrayList<>();
-        for(Number numb:nums) al.add(numb.smaller);
+        
+        if(nums.length == 1) {
+            al.add(0);
+            return al;
+        }
+        
+        List<Integer>sorted = new ArrayList<>();
+        for(int y:nums) sorted.add(y);
+        Collections.sort(sorted);
+        
+        int n = nums.length;
+        
+        for(int i=0; i<nums.length; i++){
+            int val = nums[i];
+            al.add(Math.min(n-1-i, find(sorted, val)));
+        }
+        
         return al;
     }
     
-    public Number[] mergeSort(int[]arr, int lo, int hi, Number[]nums) {
-        if(lo == hi) return new Number[]{nums[lo]};
-        int mid = lo + (hi-lo)/2;
-        Number[]left = mergeSort(arr, lo, mid, nums);
-        Number[]right = mergeSort(arr, mid + 1, hi, nums);
-        Number[]temp = mergeSorted(left, right);
-
-        return temp;
-    }
-    
-    public Number[] mergeSorted(Number[]arr1, Number[]arr2) {
-        int length = arr1.length + arr2.length;
-        Number[]arr = new Number[length];
-        int i = 0, j = 0, k = 0;
-        
-        while(k<length){
-            if(i<arr1.length && j< arr2.length){
-                if(arr1[i].value <= arr2[j].value){
-                    arr1[i].smaller += j;
-                    arr[k++] = arr1[i++];
-                }
-                else arr[k++] = arr2[j++];
+    public int find (List<Integer>arr, int tar) {
+        int lo = 0, hi = arr.size();
+        int ans = -1;
+        while (hi >= lo) {
+            int mid = lo + (hi-lo)/2;
+            if(arr.get(mid) > tar) {
+                hi = mid-1;
+            } else if (arr.get(mid) < tar) {
+                lo = mid+1;
+            } else {
+                ans = mid;
+                hi = mid-1;
             }
-            else if (i!=arr1.length) {
-                arr1[i].smaller += j;
-                arr[k++] = arr1[i++];
-            }
-            else arr[k++] = arr2[j++];
         }
-        return arr;
+        arr.remove(ans);
+        // System.out.println(tar + " " + ans + " " + arr);
+        return ans;
     }
 }
