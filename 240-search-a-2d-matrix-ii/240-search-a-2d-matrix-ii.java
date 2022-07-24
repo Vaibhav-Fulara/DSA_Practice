@@ -1,9 +1,9 @@
 class Solution {
     public boolean searchMatrix(int[][]arr, int tar) {
         for(int i=0; i<arr.length; i++) {
-            if((arr[i][0] < tar) && (arr[i][arr[0].length-1] > tar)) {
+            if((arr[i][0] <= tar) && (arr[i][arr[0].length-1] >= tar)) {
                 if(bin(arr[i], tar)) return true;
-            } else if (arr[i][0] == tar || arr[i][arr[0].length-1] == tar) return true;
+            }
         }
         return false;
     }
