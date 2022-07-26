@@ -9,7 +9,7 @@
  */
 class Solution {
     
-    boolean f1 = false, f2 = false;
+    boolean f1 = false, f2 = false;         // flags aren't important in this question but, we use them anyway for a generic question wherein only 1 value is present in the tree
     
     public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
         
