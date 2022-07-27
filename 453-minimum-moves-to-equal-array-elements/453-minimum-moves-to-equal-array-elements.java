@@ -1,15 +1,12 @@
 class Solution {
     public int minMoves(int[] arr) {
-        Arrays.sort(arr);
+        int min = Integer.MAX_VALUE;
         int ans = 0;
-        int n = arr.length;
-        for(int i=n-1; i>0; i--) {
-            if (arr[i] > arr[i-1]) {
-                ans += (arr[i] - arr[i-1]) * (n-i);
-            } else if (arr[i] < arr[i-1]) {
-                ans += arr[i-1] - arr[i];
-                arr[i-1] = arr[i];
-            }
+        for(int i=0; i<arr.length; i++) {
+            min = Math.min(min, arr[i]);
+        }
+        for(int i=0; i<arr.length; i++) {
+            ans += arr[i]-min;
         }
         return ans;
     }
