@@ -9,7 +9,13 @@ class Solution {
         if(dp[n] != null) return dp[n] == 1 ? person:-person;
         
         for(int i=1; i*i <= n; i++) {
-            if(solve(n - i*i, -person) == person) {
+            int val = n-i*i;
+            if(val == 0) {
+                dp[n] = 1;
+                return person;
+            }
+            if(Math.sqrt(val) == Math.ceil(val)) continue;
+            if(solve(val, -person) == person) {
                 dp[n] = 1;
                 return person;
             }
