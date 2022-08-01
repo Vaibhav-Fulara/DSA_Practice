@@ -14,7 +14,6 @@ class Solution {
         for(char ch:hm1.keySet()) {
             if(!hm2.containsKey(ch)) return false;
             if(!hm1.get(ch).equals(hm2.get(ch))) {
-                System.out.println(hm1.get(ch) + "   " + hm2.get(ch));
                 return false;
             }
         }
