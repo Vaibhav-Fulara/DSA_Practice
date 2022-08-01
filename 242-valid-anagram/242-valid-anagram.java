@@ -12,11 +12,9 @@ class Solution {
             hm2.put(ch2, hm2.get(ch2)+1);
         }
         for(char ch:hm1.keySet()) {
-            if(!hm2.containsKey(ch)) {
-                return false;
-            }
+            if(!hm2.containsKey(ch)) return false;
             if(hm1.get(ch) - hm2.get(ch) != 0) {
-                // System.out.println(hm1.get(ch) + "   " + hm2.get(ch));
+                System.out.println(hm1.get(ch) + "   " + hm2.get(ch));
                 return false;
             }
         }
