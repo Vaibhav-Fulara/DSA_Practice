@@ -5,7 +5,7 @@ class Solution {
         
         if(piles.length < 3) return sum;
         Integer[][]dp = new Integer[piles.length + 1][piles.length + 1];
-        return (sum + solve(piles, 0, 1, dp) + 1) / 2;
+        return (sum + solve(piles, 0, 1, dp)) / 2;
     }
     
     public int solve(int[]arr, int strt, int m, Integer[][]dp) {
