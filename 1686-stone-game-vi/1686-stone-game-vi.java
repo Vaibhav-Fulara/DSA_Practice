@@ -1,8 +1,6 @@
 class Solution {
     public int stoneGameVI(int[] alice, int[] bob) {
         int n = alice.length;
-        int[]arr = new int[n];
-        for(int i=0; i<n; i++) arr[i] = alice[i] + bob[i];
         boolean bool = true;
         
         PriorityQueue<pair>pq = new PriorityQueue<>((a,b) -> {
@@ -10,7 +8,7 @@ class Solution {
         });
         
         for(int i=0; i<n; i++) {
-            int val = arr[i];
+            int val = alice[i] + bob[i];
             pq.add(new pair(i, val));
         }
         
