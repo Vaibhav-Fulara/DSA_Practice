@@ -3,7 +3,6 @@ class Solution {
         int idx = 0;
         int curr = 1;
         int count = 0;
-        int max = 0;
         while(idx + curr <= grades.length) {
             idx += curr++;
             count++;
