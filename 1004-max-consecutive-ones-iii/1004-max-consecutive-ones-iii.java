@@ -9,13 +9,7 @@ class Solution {
                     curr++;
                 } else {
                     max = Math.max(j-i, max);
-                    while(true) {
-                        if(arr[i] == 0) {
-                            i++;
-                            break;
-                        }
-                        i++;
-                    }
+                    while(arr[i++] != 0);
                 }
             }
             j++;
