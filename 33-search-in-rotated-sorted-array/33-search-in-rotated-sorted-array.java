@@ -1,7 +1,7 @@
 class Solution {
-    public int search(int[]arr, int tar) {
+    public int search(int[] arr, int tar) {
         int lo = 0, hi = arr.length-1;
-        while(lo <= hi){
+        while(lo <= hi) {
             int mid = lo + (hi-lo)/2;
             if(arr[mid] == tar) return mid;
             else if (arr[mid] >= arr[lo]){
@@ -12,7 +12,6 @@ class Solution {
                 if(arr[hi] >= tar && arr[mid] < tar) lo = mid+1;
                 else hi = mid-1;
             }
-            
         }
         return -1;
     }
