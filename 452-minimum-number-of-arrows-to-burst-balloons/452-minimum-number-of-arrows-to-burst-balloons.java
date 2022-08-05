@@ -1,8 +1,9 @@
+// O(nlogn)
+
 class Solution {
     public int findMinArrowShots(int[][]arr) {
         
         Arrays.sort(arr, (a,b) -> {
-            if(a[0] - b[0] == 0) return b[1] < a[1] ? -1:1;
             return a[0] < b[0] ? -1:1;
         });
         
@@ -15,7 +16,6 @@ class Solution {
                 pair p = st.pop();
                 st.add(new pair(arr[i][0], Math.min(p.right, arr[i][1])));
             }
-            // System.out.println(st.peek().right + " " + arr[i][0]);
         }
         return st.size();
     }
