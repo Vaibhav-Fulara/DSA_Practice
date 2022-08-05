@@ -1,30 +1,20 @@
 class Solution {
-    public int[][] intervalIntersection(int[][] first, int[][] second) {
-        
-        if(first.length == 0 || second.length == 0) return new int[0][0];
-        
-        int i=0, j=0;
-        List<int[]>al = new ArrayList<>();
-        
-        while(true) {
-            
-            while(i < first.length && j<second.length && first[i][1] < second[j][0]) i++;
-            if(i == first.length) break;
+    public int[][] intervalIntersection(int[][] A, int[][] B) {
+        if(A == null || A.length == 0 || B == null || B.length == 0) return new int[][]{};
+        List<int[]> res = new ArrayList<>();
 
-            while(j < second.length && second[j][1] < first[i][0]) j++;
-            if(j == second.length) break;
-            
-            int strt = Math.max(second[j][0], first[i][0]);
-            int end = Math.min(second[j][1], first[i][1]);
-            if(strt <= end) al.add(new int[]{strt, end});
-            
-            if(first[i][1] > second[j][1]) j++;
-            else if(first[i][1] < second[j][1]) i++;
-            else {i++; j++;}
+        int i = 0, j = 0;
+        int startMax, endMin;
+        while(i < A.length && j < B.length){
+            startMax = Math.max(A[i][0], B[j][0]);
+            endMin = Math.min(A[i][1], B[j][1]);
+
+            if(endMin >= startMax) res.add(new int[]{startMax, endMin});
+
+            if(A[i][1] == endMin) i++;
+            if(B[j][1] == endMin) j++;
         }
-        
-        int[][]arr = new int[al.size()][];
-        for(int k=0; k<al.size(); k++) arr[k] = al.get(k);
-        return arr;
+
+        return res.toArray(new int[res.size()][2]);
     }
 }
