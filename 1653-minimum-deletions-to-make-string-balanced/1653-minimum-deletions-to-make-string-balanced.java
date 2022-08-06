@@ -1,8 +1,7 @@
 class Solution {
     public int minimumDeletions(String s) {
         Integer[][]dp = new Integer[s.length()][2];
-        int ans = solve(s, 0, 0, dp);
-        return ans;
+        return solve(s, 0, 0, dp);
     }
     public int solve(String s, int i, int flag, Integer[][]dp) {
         if(i == s.length()) return 0;
