@@ -89,6 +89,7 @@ class Solution {
 
 // Tabulation
 // O(n*k) || O(n*k)
+/*
 class Solution {
     public int countVowelPermutation(int n) {
         
@@ -119,5 +120,43 @@ class Solution {
             }
         }
         return (int)dp[n][0];
+    }
+}
+*/
+
+// Space optimization
+// O(n*k) || O(k)
+class Solution {
+    public int countVowelPermutation(int n) {
+        
+        long big = (long)(1e9 + 7);
+        long[]old = new long[6];
+        
+        Arrays.fill(old, 1);
+        for(int len=1; len<=n; len++) {
+            long[]mod = new long[6];
+            for(int last=0; last<=5; last++) {
+                long count = 0;
+                if(last == 2) 
+                    count = (count + old[1]) % big;
+                if(last == 1 || last == 3)
+                    count = (count + old[2]) % big;
+                if(last == 1 || last == 2 || last == 4 || last == 5)
+                    count = (count + old[3]) % big;
+                if(last == 3 || last == 5)
+                    count = (count + old[4]) % big;
+                if(last == 1)
+                    count = (count + old[5]) % big;
+                if(last == 0) {
+                    for(int i=1 ;i<=5 ;i++) {
+                        count = (count + old[i]) % big;
+                    }
+                }
+                
+                mod[last] = count % big;
+            }
+            old = mod;
+        }
+        return (int)old[0];
     }
 }
