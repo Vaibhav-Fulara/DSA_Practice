@@ -36,7 +36,6 @@ class Solution {
             }
         }
         arr.remove(ans);
-        // System.out.println(tar + " " + ans + " " + arr);
         return ans;
     }
 }
