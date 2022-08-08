@@ -1,18 +1,21 @@
 class Solution {
-    public int lengthOfLIS(int[] nums) {
-        int n= nums.length;
-        Integer[][]dp = new Integer[n][n];
-        return getLIS(nums, 0, -1, dp);
-    }
-    public int getLIS(int[]arr, int i, int big, Integer[][]dp) {
-        if(i == arr.length) return 0;
-        if(big != -1 && dp[i][big] != null) return dp[i][big];
-        int max = 0;
-        if(big == -1 || arr[big] < arr[i]) {
-            max = 1 + getLIS(arr, i+1, i, dp);
+    public int lengthOfLIS(int[] arr) {
+        List<Integer>al = new ArrayList<>();
+        for(int i=0; i<arr.length; i++){
+            int j = binSearch(al, arr[i]);
+            if(j == al.size()) al.add(arr[i]);
+            else al.set(j, arr[i]);
         }
-        max = Math.max(max, getLIS(arr, i+1, big, dp));
-        if(big == -1) return max;
-        return dp[i][big] = max;
+        return al.size();
+    }
+    public int binSearch(List<Integer>al, int val){
+        int lo = 0;
+        int hi = al.size();
+        while(hi > lo){
+            int mid = lo + (hi-lo)/2;
+            if(al.get(mid) < val) lo = mid+1;
+            else hi = mid;
+        }
+        return hi;
     }
 }
