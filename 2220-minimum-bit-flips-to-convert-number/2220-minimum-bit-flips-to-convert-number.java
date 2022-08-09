@@ -4,7 +4,7 @@ class Solution {
         int counter = 0;
         while(x != 0) {
             counter++;
-            x -= x & -x;
+            x &= x-1;
         }
         return counter;
     }
