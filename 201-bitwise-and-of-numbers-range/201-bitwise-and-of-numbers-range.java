@@ -3,6 +3,6 @@ class Solution {
         while(right > left) {
             right = right & (right-1);
         }
-        return left & right;
+        return right;
     }
 }
