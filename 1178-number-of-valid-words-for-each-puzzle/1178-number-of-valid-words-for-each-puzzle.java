@@ -1,45 +1,43 @@
 class Solution {
     public List<Integer> findNumOfValidWords(String[] words, String[] puzzles) {
-        int[]arr = new int[words.length];
-        int[]query = new int[puzzles.length];
-        List<Integer>al = new ArrayList<>();
-        
-        for(int i=0; i<words.length; i++) {
-            String s = words[i];
-            int val = 0;
-            for(char ch:s.toCharArray()) {
-                int n = ch-'a';
-                int mask = 1 << (n);
-                val |= mask;
+
+        int puzzlesLen = puzzles.length;
+        List<Integer> result = new ArrayList<>(puzzlesLen);
+        if (puzzlesLen == 0 || words.length == 0) {
+            for (int i = 0; i < puzzlesLen; i++) {
+                result.add(0);
             }
-            arr[i] = val;
+            return result;
         }
-        
-        for(int i=0; i<puzzles.length; i++) {
-            String s = puzzles[i];
-            int val = 0;
-            for(char ch:s.toCharArray()) {
-                int n = ch-'a';
-                int mask = 1 << (n);
-                val |= mask;
+
+        HashMap<Integer, Integer> wordMaskCountMap = new HashMap<>();
+        for (String word : words) {
+            int wordMask = getMask(word, 0);
+            wordMaskCountMap.put(wordMask, wordMaskCountMap.getOrDefault(wordMask, 0) + 1);
+        }
+
+        for (String puzzle : puzzles) {
+            int puzzleMask = getMask(puzzle, 1);
+            int firstCharMask = 1 << (puzzle.charAt(0) - 'a');
+            int subsetMask = puzzleMask;
+            int count = wordMaskCountMap.getOrDefault(firstCharMask, 0);
+
+            while (subsetMask != 0) {
+                count += wordMaskCountMap.getOrDefault(subsetMask | firstCharMask, 0);
+                subsetMask = (subsetMask - 1) & puzzleMask;
             }
-            query[i] = val;
+
+            result.add(count);
         }
-        
-        for(int i=0; i<query.length; i++) {
-            int n = 0;
-            
-            int peek = 0;
-            int m = puzzles[i].charAt(0)-'a';
-            int mask = 1 << (m);
-            peek |= mask;
-            
-            for(int j=0; j<arr.length; j++) {
-                if((query[i] & arr[j]) == arr[j] && (peek & arr[j]) == peek) n++;
-            }
-            al.add(n);
+
+        return result;
+    }
+    
+    private static int getMask(String s, int start) {
+        int mask = 0;
+        for (int i = start; i < s.length(); i++) {
+            mask |= 1 << (s.charAt(i) - 'a');
         }
-        
-        return al;
+        return mask;
     }
 }
