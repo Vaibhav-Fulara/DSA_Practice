@@ -14,19 +14,28 @@
  * }
  */
 class Solution {
-    long prev = Long.MIN_VALUE;
     public boolean isValidBST(TreeNode root) {
-        return validate(root);
-    }
-    
-    public boolean validate(TreeNode root){
         if(root == null) return true;
-        boolean left =  validate(root.left);
-        if(!left) return false;
-        if(prev>=root.val) return false;
-        prev = root.val;
-        boolean right = validate(root.right);
-        if(!right) return false;
-        return true;
+        if(root.left == null && root.right == null) return true;
+        if(!isValidBST(root.left)) return false;
+        if(!isValidBST(root.right)) return false;
+        
+        TreeNode left = null, right = null;
+        
+        if(root.left != null) {
+            left = root.left;
+            while(left.right != null) left = left.right;
+        }
+        
+        if(root.right != null) {
+            right = root.right;
+            while(right.left != null) right = right.left;
+        }
+        
+        if(right == null && root.val > left.val) return true;
+        else if(left == null && root.val < right.val) return true;
+        else if(left != null && right != null && root.val > left.val && right.val > root.val) return true;
+        
+        return false;
     }
 }
