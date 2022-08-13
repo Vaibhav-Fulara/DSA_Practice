@@ -1,7 +1,7 @@
 class Solution {
     public List<Integer> findSubstring(String s, String[] words) {
         final Map<String, Integer> counts = new HashMap<>();
-        for (final String word : words) {
+        for (String word : words) {
             counts.put(word, counts.getOrDefault(word, 0) + 1);
         }
         final List<Integer> indexes = new ArrayList<>();
