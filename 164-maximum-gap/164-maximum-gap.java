@@ -1,11 +1,45 @@
 class Solution {
-    public int maximumGap(int[]arr) {
-        if(arr.length < 2) return 0;
-        Arrays.sort(arr);
-        int max = Integer.MIN_VALUE;
-        for(int i=0; i<arr.length-1; i++) {
-            max = Math.max(arr[i+1]-arr[i], max);
-        }
-        return max;
-    }
+	public int maximumGap(int[] nums) {
+	   int n = nums.length;
+	   if(n < 2) return 0;
+
+		int min = Integer.MAX_VALUE;
+		int max = -1;
+
+		for(int num : nums){
+			min = Math.min(min, num);
+			max = Math.max(max, num);
+		}
+        
+		int interval = (int)(Math.ceil((max - min + 0.0) / (n - 1)));
+		if(interval == 0) return 0;
+
+		int[] bucketMin = new int[n];
+		int[] bucketMax = new int[n];
+
+		Arrays.fill(bucketMin, Integer.MAX_VALUE);
+		Arrays.fill(bucketMax, Integer.MIN_VALUE);
+
+		for(int num : nums){
+			int index = (num - min) / interval;
+
+			bucketMin[index] = Math.min(bucketMin[index], num);
+			bucketMax[index] = Math.max(bucketMax[index], num);
+		}
+
+		int prev = min;
+		int maxGap = 0;
+
+		for(int i = 0; i < n; i++){
+			if(bucketMin[i] == Integer.MAX_VALUE)//no element in this bucket
+				continue;
+
+			int gap = bucketMin[i] - prev;
+			maxGap = Math.max(maxGap, gap);
+
+			prev = bucketMax[i];
+		}
+
+		return maxGap;
+	}
 }
