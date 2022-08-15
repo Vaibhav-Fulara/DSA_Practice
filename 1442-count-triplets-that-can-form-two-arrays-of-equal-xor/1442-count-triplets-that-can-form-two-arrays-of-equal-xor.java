@@ -1,3 +1,4 @@
+// O(n^2)
 class Solution {
     public int countTriplets(int[] arr) {
         int count = 0;
@@ -11,3 +12,4 @@ class Solution {
         return count;
     }
 }
+
