@@ -1,3 +1,4 @@
+// O(n)
 class Solution {
     public int minSetSize(int[] arr) {
         Map<Integer, Integer>hm = new HashMap<>();
