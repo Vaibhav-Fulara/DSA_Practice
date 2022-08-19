@@ -1,6 +1,6 @@
 class Solution {
-    public int integerReplacement(int num) {
-        long n = num;
+    public int integerReplacement(int n) {
+        if(n == Integer.MAX_VALUE) return 32;
         int count = 0;
         while(n != 1) {
             count++;
