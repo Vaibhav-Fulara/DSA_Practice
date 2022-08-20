@@ -20,46 +20,60 @@ class NumArray {
 }
 */
 
-// O(n), O(logn), O(logn) recursive
+// O(n), O(logn), O(logn) Fenwick Tree
 
-public class NumArray {
-
-    int n;
-    int[] raw;
-    NumArray parent;
-
+class NumArray {
+    class FenwickTree {
+        int[]arr;
+        FenwickTree(int[]nums) {
+            arr = new int[nums.length+1];
+            for(int i=0; i<nums.length; i++) {
+                this.update(i+1, nums[i]);
+            }
+        }
+        
+        int getSum(int pos) {
+            int res = 0;
+            
+            while(pos > 0) {
+                res += arr[pos];
+                pos = pos-rsb(pos);
+            }
+            
+            return res;
+        }
+        
+        void update(int pos, int delta) {
+            while(pos<arr.length) {
+                arr[pos] += delta;
+                pos = pos + rsb(pos);
+            }
+        }
+        
+        private int rsb(int x) {
+            return x & (-x);
+        }
+    }
+    
+    FenwickTree ft;
+    int[]oarr;
     public NumArray(int[] nums) {
-        n = nums.length;
-        raw = nums;
-        if (n>1) {
-            int[] parRaw = new int[(n+1)/2];
-            for (int i=0; i<n; i++) {
-                parRaw[i/2]+=nums[i];
-            }
-            parent = new NumArray(parRaw);
-        }
+        ft = new FenwickTree(nums);
+        oarr = nums;
     }
-
+    
     public void update(int i, int val) {
-        if (n>1) parent.update(i/2, parent.get(i/2)-raw[i]+val);
-        raw[i]=val;
+        int delta = val-oarr[i];
+        ft.update(i+1, delta);
+        oarr[i] = val;
     }
-
-    public int get(int i) {
-        return raw[i];
-    }
-
-    public int sumRange(int i, int j) {
-        if (i>0) {
-            return sumRange(0,j) - sumRange(0,i-1);
-        } else if (j==0) {
-            return raw[0];
-        } else {
-            int sum = parent.sumRange(0,j/2);
-            if (j%2==0 && j+1<n) {
-                sum -= raw[j+1];
-            }
-            return sum;
-        }
+    
+    public int sumRange(int left, int right) {
+        int lpos = left + 1;
+        int rpos = right + 1;
+        
+        int sumBeforeLeft = ft.getSum(lpos-1);
+        int sumTillRight = ft.getSum(rpos);
+        return sumTillRight-sumBeforeLeft;
     }
 }
