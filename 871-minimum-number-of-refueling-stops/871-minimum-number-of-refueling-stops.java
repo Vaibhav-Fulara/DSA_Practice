@@ -1,18 +1,18 @@
 class Solution {
     public int minRefuelStops(int target, int startFuel, int[][] stations) {
-        int station = 0;
-        int fuelStock = 0;
-        int n = stations.length;
+        int curr = 0;
+        int fuel = 0;
         
         PriorityQueue<Integer>pq = new PriorityQueue<>((a,b)->b-a);
         pq.add(startFuel);
-        for(int stationCount = 0; !pq.isEmpty(); stationCount++) {
-            int curr = pq.remove();
-            fuelStock += curr;
-            if(fuelStock >= target) return stationCount;
-            while(station < n && stations[station][0] <= fuelStock) {
-                pq.add(stations[station][1]);
-                station++;
+        
+        for(int count = 0; !pq.isEmpty(); count++) {
+            int best = pq.remove();
+            fuel += best;
+            if(fuel >= target) return count;
+            while(curr < stations.length && stations[curr][0] <= fuel) {
+                pq.add(stations[curr][1]);
+                curr++;
             }
         }
         return -1;
