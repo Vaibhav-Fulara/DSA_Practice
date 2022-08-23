@@ -1,24 +1,21 @@
 class Solution {
-    public int longestSubarray(int[]arr, int k) {
-        PriorityQueue<Integer>min = new PriorityQueue<>();
-        PriorityQueue<Integer>max = new PriorityQueue<>((a,b)->b-a);
-        
-        int og = arr[0];
-        int ans = 1;
-        int j=0;
-        
-        for(int i=0; i<arr.length; i++) {
-            min.add(arr[i]);
-            max.add(arr[i]);
+    public int longestSubarray(int[] arr, int k) {
+        Deque<Integer>min = new ArrayDeque<>();
+        Deque<Integer>max = new ArrayDeque<>();
+        int i=0;
+        int ans = 0;
+        for(int j=0; j<arr.length; j++) {
+            while(!min.isEmpty() && arr[j]  < min.peekLast()) min.pollLast();
+            while(!max.isEmpty() && arr[j]  > max.peekLast()) max.pollLast();
+            min.add(arr[j]);
+            max.add(arr[j]);
             while(max.peek() - min.peek() > k) {
-                // System.out.println(min.peek() + " " + max.peek() + " " + arr[j]);
-                // System.out.println(min + " " + max);
-                min.remove(arr[j]);
-                max.remove(arr[j++]);
+                if(max.peek() == arr[i]) max.poll();
+                if(min.peek() == arr[i]) min.poll();
+                i++;
             }
-            ans = Math.max(ans, i-j+1);
+            ans = Math.max(j-i+1, ans);
         }
-        
         return ans;
     }
 }
