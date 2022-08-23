@@ -10,29 +10,30 @@
  */
 class Solution {
     public boolean isPalindrome(ListNode head) {
-        ListNode lo = head;
-        ListNode hi = head;
-        while(hi!=null && hi.next!=null && hi.next.next!=null){
-            lo = lo.next;
-            hi = hi.next.next;
+        ListNode slo = head;
+        ListNode fast = head;
+        while(fast!=null && fast.next != null && fast.next.next != null) {
+            slo = slo.next;
+            fast = fast.next.next;
         }
-        lo = lo.next;
-        ListNode h2 = reverse(lo);
-        while(head!=null && h2!=null){
-            if(head.val!=h2.val) return false;
+        ListNode head2 = reverse(slo.next);
+        slo.next = null;
+        
+        while(head != null && head2 != null) {
+            if(head.val != head2.val) return false;
             head = head.next;
-            h2 = h2.next;
+            head2 = head2.next;
         }
         return true;
     }
-    public ListNode reverse(ListNode node){
+    public ListNode reverse(ListNode head) {
         ListNode prev = null;
-        ListNode curr = node;
-        while(curr!=null){
-            ListNode temp = curr.next;
+        ListNode curr = head;
+        while(curr != null) {
+            ListNode next = curr.next;
             curr.next = prev;
             prev = curr;
-            curr = temp;
+            curr = next;
         }
         return prev;
     }
