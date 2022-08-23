@@ -1,25 +1,24 @@
 class Solution {
-    public int carFleet(int tar, int[] pos, int[] speed) {        
-        int[]diff = new int[pos.length];
-        int idx = 0;
-        for(int val:pos) diff[idx++] = tar - val;
-        
+    public int carFleet(int target, int[] pos, int[] speed) {
+        int i=0;
+        int[]arr = new int[pos.length];
+        for(int val:pos) arr[i++] = target - val;
         Map<Integer, Integer>hm = new HashMap<>();
-        for(int i=0; i<pos.length; i++) hm.put(diff[i], speed[i]);
-        
-        Arrays.sort(diff);
-        int ans = 1;
-        double prevt = (double) diff[0]/hm.get(diff[0]);
-        
-        for(int j=1; j<diff.length; j++){
-            int val = diff[j];
-            double currt = (double) val/hm.get(val);
-            if(currt > prevt ){
-                ans ++;
-                prevt = currt;
+        for(int j=0; j<arr.length; j++) {
+            hm.put(arr[j], speed[j]);
+        }
+        Arrays.sort(arr);
+        int count = 0;
+        i = 0;
+        while(i != arr.length) {
+            int start = arr[i];
+            int curr = hm.get(start);
+            count++;
+            while(i != arr.length && (long)start * hm.get(arr[i]) >= (long)arr[i] * curr) {
+                i++;
             }
         }
-        
-        return ans;
+        return count;
     }
 }
+
