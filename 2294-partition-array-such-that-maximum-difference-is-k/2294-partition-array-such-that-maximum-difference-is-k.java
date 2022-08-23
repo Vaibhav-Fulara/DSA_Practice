@@ -1,14 +1,13 @@
-class Solution{    
-    public int partitionArray(int[] nums, int k) {
-        Arrays.sort(nums);
-        if(nums.length==1) return 1;
-        int ans=1,pre=nums[0];
-        for(int i=1;i<nums.length;i++){
-            if(nums[i]-pre>k){
-                ans++;
-                pre=nums[i];
-            }
+class Solution {
+    public int partitionArray(int[]arr, int k) {
+        Arrays.sort(arr);
+        int count = 0;
+        for(int i=arr.length-1; i>=0; i--) {
+            int init = arr[i];
+            count++;
+            while(i >= 0 && init - arr[i] <= k) i--;
+            i++;
         }
-        return ans;
+        return count;
     }
 }
