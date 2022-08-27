@@ -1,79 +1,73 @@
-// Brute O(1), O(1), O(n) solution
-/*
 class NumArray {
+    
+    public class Node {
+        int strt, end, val;
+        Node left, right;
+    }
+    
+    public Node constructSegmentTree(int[]arr, int lo, int hi) {
+        if(lo == hi) {
+            Node node = new Node();
+            node.strt = node.end = lo;
+            node.val = arr[lo];
+            return node;
+        }
+        
+        Node node = new Node();
+        int mid = (lo + hi)/2;
+        
+        Node left = constructSegmentTree(arr, lo, mid);
+        Node right = constructSegmentTree(arr, mid+1, hi);
+        
+        node.left = left;
+        node.right = right;
+        node.val = left.val + right.val;
+        node.strt = lo;
+        node.end = hi;
+        
+        return node;
+    }
+    
+    Node root;
     int[]arr;
+    
     public NumArray(int[] nums) {
+        root = constructSegmentTree(nums, 0, nums.length-1);
         arr = nums;
     }
+
+    public void update(int index, int val) {
+//         Node temp = root;
+//         int diff = arr[index] - val;
+//         arr[index] = val;
+        
+//         while(temp != null) {
+//             temp.val -= diff;
+//             if((temp.strt + temp.end) / 2 <= index) temp = temp.left;
+//             else temp = temp.right;
+//         }
+        updateTree(root, index, val);
+    }
     
-    public void update(int i, int val) {
-        arr[i] = val;
+    public void updateTree(Node node, int idx, int val) {
+        if(node.strt == node.end) {
+            node.val = val;
+            return;
+        }
+        
+        int mid = (node.strt + node.end)/2;
+        if(idx <= mid) updateTree(node.left, idx, val);
+        else updateTree(node.right, idx, val);
+        node.val = node.left.val + node.right.val;
     }
     
     public int sumRange(int left, int right) {
-        int sum = 0;
-        for(int i=left; i<=right; i++) {
-            sum += arr[i];
-        } 
-        return sum;
-    }
-}
-*/
-
-// O(n), O(logn), O(logn) Fenwick Tree
-
-class NumArray {
-    class FenwickTree {
-        int[]arr;
-        FenwickTree(int[]nums) {
-            arr = new int[nums.length+1];
-            for(int i=0; i<nums.length; i++) {
-                this.update(i+1, nums[i]);
-            }
-        }
-        
-        int getSum(int pos) {
-            int res = 0;
-            
-            while(pos > 0) {
-                res += arr[pos];
-                pos = pos-rsb(pos);
-            }
-            
-            return res;
-        }
-        
-        void update(int pos, int delta) {
-            while(pos<arr.length) {
-                arr[pos] += delta;
-                pos = pos + rsb(pos);
-            }
-        }
-        
-        private int rsb(int x) {
-            return x & (-x);
-        }
+        return getSum(root, left, right);
     }
     
-    FenwickTree ft;
-    int[]oarr;
-    public NumArray(int[] nums) {
-        ft = new FenwickTree(nums);
-        oarr = nums;
-    }
-    
-    public void update(int i, int val) {
-        int delta = val-oarr[i];
-        ft.update(i+1, delta);
-        oarr[i] = val;
-    }
-    
-    public int sumRange(int left, int right) {
-        int lpos = left + 1;
-        int rpos = right + 1;
-        
-        int sumBeforeLeft = ft.getSum(lpos-1);
-        int sumTillRight = ft.getSum(rpos);
-        return sumTillRight-sumBeforeLeft;
+    public int getSum(Node root, int left, int right) {
+        if(root.strt > right || root.end < left) return 0;
+        if(root.strt >= left && root.end <= right) return root.val;
+        return getSum(root.left, left, right) + getSum(root.right, left, right);
     }
 }
