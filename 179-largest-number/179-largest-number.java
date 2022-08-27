@@ -1,13 +1,14 @@
 class Solution {
     public String largestNumber(int[] arr) {
-        PriorityQueue<Integer>pq = new PriorityQueue<>((n1,n2) -> {
-            String a = String.valueOf(n1);
-            String b = String.valueOf(n2);
+        String[]sarr = new String[arr.length];
+        for(int i=0; i<arr.length; i++) {
+            sarr[i] = String.valueOf(arr[i]);
+        }
+        Arrays.sort(sarr, (a,b) -> {
             return (b+a).compareTo(a+b);
         });
-        for(int val:arr) pq.add(val);
         StringBuilder ans = new StringBuilder();
-        while(!pq.isEmpty()) ans.append(pq.remove());
+        for(String val:sarr) ans.append(val);
         while(ans.charAt(0) == '0' && ans.length() > 1) ans.deleteCharAt(0);
         return ans.toString();
     }
