@@ -1,18 +1,5 @@
-/**
- * Definition for a binary tree node.
- * public class TreeNode {
- *     int val;
- *     TreeNode left;
- *     TreeNode right;
- *     TreeNode() {}
- *     TreeNode(int val) { this.val = val; }
- *     TreeNode(int val, TreeNode left, TreeNode right) {
- *         this.val = val;
- *         this.left = left;
- *         this.right = right;
- *     }
- * }
- */
+// O(n^2)
+/*
 class Solution {
     public TreeNode insertIntoMaxTree(TreeNode root, int val) {
         List<Integer>al = new ArrayList<>();
@@ -43,5 +30,21 @@ class Solution {
         root.left = solve(nums, strt, max-1);
         root.right = solve(nums, max+1, end);
         return root;
+    }
+}
+*/
+
+// O(n)
+public class Solution {
+    public TreeNode insertIntoMaxTree(TreeNode root, int val) {
+        if(root == null) return new TreeNode (val);
+        if(root.val < val) {
+            TreeNode node = new TreeNode (val);
+            node.left = root;
+            return node;
+        } else {
+            root.right = insertIntoMaxTree(root.right, val);
+            return root;
+        }
     }
 }
