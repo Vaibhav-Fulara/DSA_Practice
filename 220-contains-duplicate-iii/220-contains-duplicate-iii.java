@@ -1,8 +1,6 @@
 class Solution {    
     public boolean containsNearbyAlmostDuplicate(int[] nums, int k, int t) {
-        if (nums == null || nums.length < 2 || k < 1 || t < 0) {
-            return false;
-        }
+        if (nums.length < 2 || k == 0) return false;
 
         HashMap<Long, Long> buckets = new HashMap<>();
         long bucketSize = (long) t + 1;
