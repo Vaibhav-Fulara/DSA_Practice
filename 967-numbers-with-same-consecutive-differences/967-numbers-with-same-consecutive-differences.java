@@ -7,7 +7,7 @@ class Solution {
             if(k!=0 && i+k <= 9) adj.get(i).add(i+k);
         }
         int tar = (int)(Math.pow(10,n-1));
-        Set<Integer>al = new HashSet<>();
+        List<Integer>al = new ArrayList<>();
         for(int i=1; i<=9; i++) {
             solve(i, tar, al, adj);
         }
@@ -16,7 +16,7 @@ class Solution {
         for(int val:al) ans[i++] = val;
         return ans;
     }
-    public void solve(int curr, int tar, Set<Integer>al, List<List<Integer>>adj) {
+    public void solve(int curr, int tar, List<Integer>al, List<List<Integer>>adj) {
         if(curr >= tar) {
             al.add(curr);
             return;
