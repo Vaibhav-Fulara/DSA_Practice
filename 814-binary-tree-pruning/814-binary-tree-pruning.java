@@ -15,9 +15,16 @@
  */
 class Solution {
     public TreeNode pruneTree(TreeNode root) {
-        if(root.left!=null) root.left = pruneTree(root.left);
-        if(root.right!=null) root.right = pruneTree(root.right);
-        if(root.val == 0 && root.left==null && root.right==null) return null;
-        return root;
+        if(!solve(root)) return root;
+        return null;
+    }
+    public boolean solve(TreeNode root) {
+        if(root == null) return true;
+        boolean b1 = solve(root.left);
+        if(b1) root.left = null;
+        boolean b2 = solve(root.right);
+        if(b2) root.right = null;
+        if(b1 && b2 && root.val == 0) return true;
+        return false;
     }
 }
