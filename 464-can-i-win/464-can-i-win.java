@@ -6,16 +6,16 @@ class Solution {
         return dfs(dp, 0, maxChoosableInteger, desiredTotal);
     }
     
-    public boolean dfs(int[] dp, int chs, int max, int target) {
+    public boolean dfs(int[] dp, int curr, int max, int target) {
         if (target <= 0) return false;
-        if (dp[chs] != 0) return dp[chs] == 1;
+        if (dp[curr] != 0) return dp[curr] == 1;
         boolean win = false;
         for (int i = 0; i < max; i++) {
-            if ((chs & (1 << i)) == 0) {        // Not chosen yet
-                win = win || !dfs(dp, chs | (1 << i), max, target - i - 1);
+            if ((curr & (1 << i)) == 0) {        // Not chosen yet
+                win = win || !dfs(dp, curr | (1 << i), max, target - i - 1);
             }
         }
-        dp[chs] = win ? 1 : -1;
+        dp[curr] = win ? 1 : -1;
         return win;
     }
 }
