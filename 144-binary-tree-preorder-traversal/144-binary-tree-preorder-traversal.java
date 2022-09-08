@@ -16,23 +16,22 @@
 class Solution {
     public List<Integer> preorderTraversal(TreeNode root) {
         List<Integer>al = new ArrayList<>();
-        TreeNode curr = root;
-        while(curr != null){
-            if(curr.left == null) {
-                al.add(curr.val);
-                curr = curr.right;
+        TreeNode node = root;
+        while(node != null) {
+            if(node.left == null) {
+                al.add(node.val);
+                node = node.right;
             }
-            else{
-                TreeNode temp = curr.left;
-                while (temp.right != null && temp.right != curr) temp = temp.right;
+            else {
+                TreeNode temp = node.left;
+                while(temp.right != null && temp.right != node) temp = temp.right;
                 if(temp.right == null) {
-                    al.add(curr.val);
-                    temp.right = curr;
-                    curr = curr.left;
-                }
-                else if(temp.right == curr){
+                    al.add(node.val);
+                    temp.right = node;
+                    node = node.left;
+                } else {
                     temp.right = null;
-                    curr = curr.right;
+                    node = node.right;
                 }
             }
         }
