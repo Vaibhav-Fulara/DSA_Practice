@@ -1,13 +1,19 @@
 class Solution {
-    public int countSubstrings(String S) {
-        int len = S.length(), ans = 0;
-        for (int i = 0; i < len; i++) {
-            int j = i - 1, k = i;
-            while (k < len - 1 && S.charAt(k) == S.charAt(k+1)) k++;
-            ans += (k - j) * (k - j + 1) / 2;
-            i = k++;
-            while (j >= 0 && k < len && S.charAt(k++) == S.charAt(j--)) ans++;
+    int count =1;
+    public int countSubstrings(String s) {
+        if(s.length()==0) return 0;
+        for(int i=0; i<s.length()-1; i++){
+            checkPalindrome(s,i,i);     //To check the palindrome of odd length palindromic sub-string
+            checkPalindrome(s,i,i+1);   //To check the palindrome of even length palindromic sub-string
         }
-        return ans;
+        return count;
+    }    
+
+    private void checkPalindrome(String s, int i, int j) {
+        while(i>=0 && j<s.length() && s.charAt(i)==s.charAt(j)){    //Check for the palindrome string 
+            count++;    //Increment the count if palindromin substring found
+            i--;    //To trace string in left direction
+            j++;    //To trace string in right direction
+        }
     }
 }
