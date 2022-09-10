@@ -45,8 +45,8 @@ class Solution {
 class Solution {
     public int maxProfit(int K, int[] arr) {
         int[][]dp = new int[arr.length+1][K+1];
-        for(int idx = arr.length-1; idx >= 0; idx--) {
-            for(int k = 1; k <= K; k++) {
+        for(int k = 1; k <= K; k++) {
+            for(int idx = arr.length-1; idx >= 0; idx--) {
                 int max = Integer.MIN_VALUE;
                 int curr = -arr[idx];
                 for(int i = idx+1; i<arr.length; i++) {
