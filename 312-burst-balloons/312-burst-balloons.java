@@ -11,7 +11,6 @@ class Solution {
     }
     public int solve(int[]arr, int lo, int hi, int[][]dp) {
         if(lo > hi) return 0;
-        if(lo == hi) return arr[lo-1]*arr[lo]*arr[lo+1];
         if(dp[lo][hi] != -1) return dp[lo][hi];
         int max = Integer.MIN_VALUE;
         for(int idx=lo; idx<=hi; idx++) {
