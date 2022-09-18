@@ -1,21 +1,21 @@
 class Solution {
     public int trap(int[]arr) {
-        int n = arr.length, ans = 0;
+        int[]pre = new int[arr.length];
+        int[]post = new int[arr.length];
+        pre[0] = arr[0];
+        post[arr.length-1] = arr[arr.length-1];
         
-        int[]left =  new int[n];
-        int[]right =  new int[n];
-        
-        int leftmax = arr[0];
-        int rightmax = arr[n-1];
-        
-        for(int i=0; i<n; i++) {
-            leftmax = Math.max(arr[i], leftmax);
-            left[i] = leftmax;
-            rightmax = Math.max(arr[arr.length - i - 1], rightmax);
-            right[arr.length - i - 1] = rightmax;
+        for(int i=1; i<arr.length; i++) {
+            pre[i] = Math.max(pre[i-1], arr[i]);
+            post[arr.length-i-1] = Math.max(arr[arr.length-i-1], post[arr.length-i]);
         }
         
-        for(int i=0; i<n; i++) if(arr[i] < left[i] && arr[i] < right[i]) ans += Math.min(left[i], right[i])-arr[i];
+        int ans = 0;
+        for(int i=1; i<arr.length-1; i++) {
+            if(arr[i] < pre[i-1] && arr[i] < post[i+1]) {
+                ans += Math.min(pre[i-1], post[i+1]) - arr[i];
+            }
+        }
         return ans;
     }
 }
