@@ -20,12 +20,10 @@ class Solution {
                         sb.setCharAt(temp--, ch2);
                     }
                 }
-                // System.out.println(ch1 +" "+ ch2 +" "+ i);
                 ch1 = ch2;
                 prev = i;
             }
         }
-        
         return sb.substring(1,sb.length()-1).toString();
     }
 }
