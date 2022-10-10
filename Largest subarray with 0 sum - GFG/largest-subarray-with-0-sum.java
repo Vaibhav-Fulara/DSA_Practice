@@ -1,4 +1,4 @@
-// { Driver Code Starts
+//{ Driver Code Starts
 import java.util.*;
 
 class MaxLenZeroSumSub
@@ -23,20 +23,23 @@ class MaxLenZeroSumSub
             T--;
         }
     }
-}// } Driver Code Ends
+}
+// } Driver Code Ends
 
 
 class GfG{
     int maxLen(int arr[], int n){
-        int sum = 0, max = 0;
         Map<Integer, Integer>hm = new HashMap<>();
-        hm.put(0,-1);
-        for(int i=0; i<n; i++){
+        hm.put(0, -1);
+        int sum = 0;
+        int max = 0;
+        for(int i=0; i<n; i++) {
             sum += arr[i];
             if(hm.containsKey(sum)) {
-                max = Math.max(i - hm.get(sum), max);
+                max = Math.max(max, i-hm.get(sum));
+            } else {
+                hm.put(sum, i);
             }
-            else hm.put(sum, i);
         }
         return max;
     }
